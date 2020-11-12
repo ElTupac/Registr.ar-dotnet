@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Registr.ar";
+}
+
+@{
+    bool usernameUsed = (ViewBag.usernameUsed != null);
+    bool mailUsed = (ViewBag.mailUsed != null);
+}
+<div class="text-center">
+    <section class="login-sec">
+        <h1>Loguear</h1>
+        <form action='@Url.Action("LoginUser", "Home")' method="POST">
+            <input type="text" name="username" placeholder="Usuario/eMail" required>
+            <br>
+            <input type="password" name="password" placeholder="Contrasenia" required>
+            <br>
+            <button type="submit">Entrar</button>
+        </form>
+    </section>
+    <section class="register-sec">
+        <h1>Registrarse</h1>
+        <form action='@Url.Action("RegisterUser", "Home")' id="registerForm" method="POST">
+            <input type="text" name="username" placeholder="Nombre de usuario" required value='@((mailUsed && !usernameUsed) ? @ViewBag.username : "")'>
+            @if(usernameUsed){
+                <p style="color: red; margin: 0;">Este nombre ya esta en uso</p>
+            }else{
+                 <br>
+            }
+            <input type="email" name="email" placeholder="Tu email" required value='@((usernameUsed && !mailUsed) ? @ViewBag.email : "")'>
+            @if(mailUsed){
+                <p style="color: red; margin: 0;">Este email ya esta en uso</p>
+            }else{
+                <br>
+            }
+            <input type="password" id="password" name="password" placeholder="Nueva contrasenia" required>
+            <br>
+            <input type="password" id="password2" placeholder="Repite la contrasenia" required>
+            <p id="alerta" style="display: none; color: red;">Las contrasenias no coinciden</p>
+            <button type="submit">Registrar</button>
+        </form>
+    </section>
+</div>
+
+<script src="~/js/formCheck.js"></script>
