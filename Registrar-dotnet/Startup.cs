@@ -29,6 +29,13 @@ namespace Registrar_dotnet
 
             services.AddDbContext<UserContext>(options =>
             options.UseSqlite(Configuration.GetConnectionString("UserContext")));
+            services.AddDistributedMemoryCache();
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(10);
+                options.Cookie.Name = ".registrar.Session";
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,6 +55,7 @@ namespace Registrar_dotnet
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession();
 
             app.UseAuthorization();
 

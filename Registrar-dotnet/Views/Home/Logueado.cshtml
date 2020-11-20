@@ -1,7 +1,46 @@
+@model List<Registro>;
 @{
-    ViewData["Title"] = "Logueado";
+    ViewData["Title"] = ViewBag.username;
 }
 
 <div class="text-center">
-    <h1>Logueado!</h1>
+    <h1>Registros de @ViewBag.username</h1>
+
+    @if(Model.Count() > 0)
+    {
+        <table>
+            <tr>
+                <th><strong>ID</strong></th>
+                <th><strong>Nombre</strong></th>
+                <th><strong>Pago</strong></th>
+            </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th class="registro-id">@item.ID</th>
+                        <th class="registro-nombre">@item.Nombre</th>
+                        @{var premium = item.Premium ? "✅" : "❌";}
+                        <th class="registro-pago">@premium</th>
+                    </tr>
+                }  
+        </table>
+    }
+    else {<h2><strong>Todavia no tenes creado registros</strong><br>Empieza creando uno</h2>}
+
+    <br>
+    <br>
+
+    <h3>Nuevo registro</h3>
+    <form action='@Url.Action("CrearRegistro", "Home")' method="POST">
+        <label for="nombre">Nombre del registro</label>
+        <input type="text" name="nombre" placeholder="Nombre">
+        <button type="submit">Crear</button>
+    </form>
+
+    <br>
+    <br>
+
+    <form action='@Url.Action("SacarUsuario", "Home")'>
+        <button type="submit">Salir</button>
+    </form>
 </div>

@@ -5,6 +5,7 @@
 @{
     bool usernameUsed = (ViewBag.usernameUsed != null);
     bool mailUsed = (ViewBag.mailUsed != null);
+    bool badLogin = (ViewBag.badLogin != null);
 }
 <div class="text-center">
     <section class="login-sec">
@@ -13,7 +14,11 @@
             <input type="text" name="username" placeholder="Usuario/eMail" required>
             <br>
             <input type="password" name="password" placeholder="Contrasenia" required>
-            <br>
+            @if(badLogin){
+                <p style="color: red; margin: 0">Las credenciales ingresadas no son validas</p>
+            }else{
+                <br>
+            }
             <button type="submit">Entrar</button>
         </form>
     </section>

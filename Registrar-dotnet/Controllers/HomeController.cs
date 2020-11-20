@@ -8,8 +8,9 @@ using Microsoft.Extensions.Logging;
 using Registrar_dotnet.Models;
 using System.Net.Mail;
 using System.Net;
+using Microsoft.AspNetCore.Http;
 
-namespace Registr.ar_dotnet.Controllers
+namespace Registrar_dotnet.Controllers
 {
     public class HomeController : Controller
     {
@@ -61,10 +62,47 @@ namespace Registr.ar_dotnet.Controllers
         public IActionResult LoginUser(string username, string password)
         {
             //TODO
-            //Checkear que exista el usuario
             //Checkear que conincida la contrasenia
             //Checkear que haya verficado el mail
-            return View("Logueado");
+            User userCheck = db.Users.FirstOrDefault(n => (n.Mail == username || n.UserName == username) && n.Password == password);
+            if(userCheck != null)
+            {
+                AgregarUsuario(userCheck);
+
+                ViewBag.username = userCheck.UserName;
+                int _id = userCheck.ID;
+
+                List<Registro> misRegistros = db.Registros.Where(r => r.CreadorID == _id).ToList();
+                return View("Logueado", misRegistros);
+            }
+            else
+            {
+                ViewBag.badLogin = true;
+                return View("Index");
+            }
+        }
+
+        public IActionResult CrearRegistro(string nombre)
+        {
+            if(nombre != null){
+                User usuario = HttpContext.Session.Get<User>("UsuarioLogueado");
+
+                Registro nuevoRegistro = new Registro{
+                    Nombre = nombre,
+                    CreadorID = usuario.ID,
+                    Premium = false
+                };
+
+                db.Registros.Add(nuevoRegistro);
+                db.SaveChanges();
+
+                int _id = usuario.ID;
+                List<Registro> misRegistros = db.Registros.Where(r => r.CreadorID == _id).ToList();
+                return View("Logueado", misRegistros);
+            }else{
+                //Por alguna razon no llego el nombre del nuevo registro
+                return View("ErrorView");
+            }
         }
 
 
@@ -79,6 +117,24 @@ namespace Registr.ar_dotnet.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public JsonResult AgregarUsuario(User usuario)
+        {
+            HttpContext.Session.Set<User>("UsuarioLogueado", usuario);
+            return Json(usuario);
+        }
+
+        public JsonResult ConsultarUsuario()
+        {
+            User usuario = HttpContext.Session.Get<User>("UsuarioLogueado");
+            return Json(usuario);
+        }
+
+        public IActionResult SacarUsuario()
+        {
+            HttpContext.Session.Remove("UsuarioLogueado");
+            return View("Index");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

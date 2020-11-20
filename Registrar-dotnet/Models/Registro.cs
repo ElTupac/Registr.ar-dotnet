@@ -4,23 +4,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Registrar_dotnet.Models
 {
-    public class User
+    public class Registro
     {
         [Key][DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID {get; set;}
-
         [Required]
-        public string Mail {get; set;}
-
+        public string Nombre {get; set;}
         [Required]
-        public string UserName {get; set;}
-
-        [Required]
-        public string Password {get; set;}
-
-        public bool EmailVerif {get; set;}
-        public string Token {get; set;} //No se esta usando
-
-        public string Rol {get; set;}
+        public int CreadorID {get; set;}
+        public bool Premium {get; set;}
+        public string nombrePropiedad {get; set;}
+        public string Adicionales {get; set;}
     }
 }
