@@ -9,6 +9,7 @@ using Registrar_dotnet.Models;
 using System.Net.Mail;
 using System.Net;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace Registrar_dotnet.Controllers
 {
@@ -70,10 +71,8 @@ namespace Registrar_dotnet.Controllers
                 AgregarUsuario(userCheck);
 
                 ViewBag.username = userCheck.UserName;
-                int _id = userCheck.ID;
 
-                List<Registro> misRegistros = db.Registros.Where(r => r.CreadorID == _id).ToList();
-                return View("Logueado", misRegistros);
+                return View("Logueado", RegistrosDe(userCheck.ID));
             }
             else
             {
@@ -95,16 +94,103 @@ namespace Registrar_dotnet.Controllers
 
                 db.Registros.Add(nuevoRegistro);
                 db.SaveChanges();
-
-                int _id = usuario.ID;
-                List<Registro> misRegistros = db.Registros.Where(r => r.CreadorID == _id).ToList();
-                return View("Logueado", misRegistros);
+                return View("Logueado", RegistrosDe(usuario.ID));
             }else{
                 //Por alguna razon no llego el nombre del nuevo registro
                 return View("ErrorView");
             }
         }
 
+        public IActionResult EliminarRegistros(string reg_ids){
+            List<int> ids = JsonConvert.DeserializeObject<int[]>(reg_ids).ToList();
+            User usuario = HttpContext.Session.Get<User>("UsuarioLogueado");
+            
+            int i;
+            for(i = 0; i < ids.Count(); i++){
+                Registro reg = db.Registros.FirstOrDefault(r => r.ID == ids[i] && r.CreadorID == usuario.ID);
+                if(reg != null) db.Registros.Remove(reg);
+            }
+            db.SaveChanges();
+            
+            return View("Logueado", RegistrosDe(usuario.ID));
+        }
+
+        public IActionResult PausarLogs(string reg_ids){
+            List<int> ids = JsonConvert.DeserializeObject<int[]>(reg_ids).ToList();
+            User usuario = HttpContext.Session.Get<User>("UsuarioLogueado");
+
+            pausaLogs(ids, usuario);
+
+            return View("Logueado", RegistrosDe(usuario.ID));
+        }
+
+        public void pausaLogs(List<int> ids, User usuario){
+            if(ids.Count() == 1){
+                Registro reg = db.Registros.FirstOrDefault(r => r.ID == ids[0] && r.CreadorID == usuario.ID);
+                if(reg != null){
+                    reg.pauseLogs = reg.pauseLogs ? false : true;
+                    db.Registros.Update(reg);
+                    db.SaveChanges();
+                }
+                return;
+            }
+
+            int i;
+            for(i = 0; i < ids.Count(); i++){
+                Registro reg = db.Registros.FirstOrDefault(r => r.ID == ids[i] && r.CreadorID == usuario.ID);
+                if(reg != null) {
+                    reg.pauseLogs = true;
+                    db.Registros.Update(reg);
+                }
+            }
+            db.SaveChanges();
+        }
+
+        public IActionResult PausarRegs(string reg_ids){
+            List<int> ids = JsonConvert.DeserializeObject<int[]>(reg_ids).ToList();
+            User usuario = HttpContext.Session.Get<User>("UsuarioLogueado");
+
+            pausaRegs(ids, usuario);
+
+            return View("Logueado", RegistrosDe(usuario.ID));
+        }
+        public void pausaRegs(List<int> ids, User usuario){
+            if(ids.Count() == 1){
+                Registro reg = db.Registros.FirstOrDefault(r => r.ID == ids[0] && r.CreadorID == usuario.ID);
+                if(reg != null){
+                    reg.pauseRegs = reg.pauseRegs ? false : true;
+                    db.Registros.Update(reg);
+                    db.SaveChanges();
+                }
+
+                return;
+            }
+
+            int i;
+            for(i = 0; i < ids.Count(); i++){
+                Registro reg = db.Registros.FirstOrDefault(r => r.ID == ids[i] && r.CreadorID == usuario.ID);
+                if(reg != null) {
+                    reg.pauseRegs = true;
+                    db.Registros.Update(reg);
+                }
+            }
+            db.SaveChanges();
+        }
+
+        public IActionResult PausarTodo(string reg_ids){
+            List<int> ids = JsonConvert.DeserializeObject<int[]>(reg_ids).ToList();
+            User usuario = HttpContext.Session.Get<User>("UsuarioLogueado");
+
+            pausaLogs(ids, usuario);
+            pausaRegs(ids, usuario);
+
+            return View("Logueado", RegistrosDe(usuario.ID));
+        }
+
+        public List<Registro> RegistrosDe(int _id){
+            List<Registro> registros = db.Registros.Where(r => r.CreadorID == _id).ToList();
+            return registros;
+        }
 
         private readonly ILogger<HomeController> _logger;
 
@@ -116,7 +202,9 @@ namespace Registrar_dotnet.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            User usuario = HttpContext.Session.Get<User>("UsuarioLogueado");
+            if(usuario != null) return View("Logueado", RegistrosDe(usuario.ID));
+            else return View();
         }
 
         public JsonResult AgregarUsuario(User usuario)

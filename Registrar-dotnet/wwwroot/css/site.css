@@ -131,3 +131,9 @@ body {
   border-radius: 10px;
   margin: 10px 10px;
 }
+
+#btn-eliminar{
+  border-radius: 5px;
+  background-color: red;
+  color: #fff;
+}

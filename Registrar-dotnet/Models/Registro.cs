@@ -15,5 +15,8 @@ namespace Registrar_dotnet.Models
         public bool Premium {get; set;}
         public string nombrePropiedad {get; set;}
         public string Adicionales {get; set;}
+
+        public bool pauseLogs {get; set;}
+        public bool pauseRegs {get; set;}
     }
 }

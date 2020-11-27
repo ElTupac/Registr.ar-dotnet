@@ -69,6 +69,12 @@ namespace Registrar_dotnet.Migrations
                     b.Property<string>("nombrePropiedad")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("pauseLogs")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("pauseRegs")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("ID");
 
                     b.ToTable("Registros");

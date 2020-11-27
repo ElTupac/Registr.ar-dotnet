@@ -10,22 +10,36 @@
     {
         <table>
             <tr>
+                <th></th>
                 <th><strong>ID</strong></th>
                 <th><strong>Nombre</strong></th>
                 <th><strong>Pago</strong></th>
+                <th><strong>Loguear</strong></th>
+                <th><strong>Registrar</strong></th>
             </tr>
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <th class="registro-id">@item.ID</th>
-                        <th class="registro-nombre">@item.Nombre</th>
+                        <td><input type="checkbox" id='@item.ID-check'></td>
+                        <td class="registro-id">@item.ID</td>
+                        <td class="registro-nombre">@item.Nombre</td>
                         @{var premium = item.Premium ? "✅" : "❌";}
-                        <th class="registro-pago">@premium</th>
+                        <td class="registro-pago">@premium</td>
+                        @{var pauseLogs = !item.pauseLogs ? "✅" : "❌";}
+                        <td id='@item.ID-logcheck'>@pauseLogs</td>
+                        @{var pauseRegs = !item.pauseRegs ? "✅" : "❌";}
+                        <td id='@item.ID-regcheck'>@pauseRegs</td>
                     </tr>
                 }  
         </table>
     }
     else {<h2><strong>Todavia no tenes creado registros</strong><br>Empieza creando uno</h2>}
+
+    <br>
+    <button id="btn-eliminar" style="display: none;">Eliminar</button>
+    <button id="pausar-logs" style="display: none;"></button>
+    <button id="pausar-regs" style="display: none;"></button>
+    <button id="pausar-todo" style="display: none;"></button>
 
     <br>
     <br>
@@ -43,4 +57,7 @@
     <form action='@Url.Action("SacarUsuario", "Home")'>
         <button type="submit">Salir</button>
     </form>
+
+
+    <script src="~/js/accionesRegistros.js"></script>
 </div>

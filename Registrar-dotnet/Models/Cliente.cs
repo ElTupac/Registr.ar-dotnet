@@ -20,5 +20,7 @@ namespace Registrar_dotnet.Models
         public bool FreeCheck {get; set;}
 
         public string Adicionales {get; set;}
+        [Required]
+        public int RegistroID {get; set;}
     }
 }
