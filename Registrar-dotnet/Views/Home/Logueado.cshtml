@@ -1,4 +1,3 @@
-@model List<Registro>;
 @{
     ViewData["Title"] = ViewBag.username;
 }
@@ -6,7 +5,7 @@
 <div class="text-center">
     <h1>Registros de @ViewBag.username</h1>
 
-    @if(Model.Count() > 0)
+    @if(ViewBag.Creador.Count > 0)
     {
         <table>
             <tr>
@@ -17,7 +16,7 @@
                 <th><strong>Loguear</strong></th>
                 <th><strong>Registrar</strong></th>
             </tr>
-                @foreach (var item in Model)
+                @foreach (var item in ViewBag.Creador)
                 {
                     <tr>
                         <td><input type="checkbox" id='@item.ID-check'></td>

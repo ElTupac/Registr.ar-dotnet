@@ -12,6 +12,7 @@ namespace Registrar_dotnet.Models
         public string Nombre {get; set;}
         [Required]
         public int CreadorID {get; set;}
+        public string Administradores {get; set;}
         public bool Premium {get; set;}
         public string nombrePropiedad {get; set;}
         public string Adicionales {get; set;}

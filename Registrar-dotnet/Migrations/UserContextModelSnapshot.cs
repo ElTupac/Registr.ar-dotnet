@@ -38,6 +38,9 @@ namespace Registrar_dotnet.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("RegistroID")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -54,6 +57,9 @@ namespace Registrar_dotnet.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Adicionales")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Administradores")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("CreadorID")
@@ -95,12 +101,6 @@ namespace Registrar_dotnet.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Rol")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Token")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UserName")

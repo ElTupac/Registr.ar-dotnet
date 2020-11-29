@@ -19,8 +19,5 @@ namespace Registrar_dotnet.Models
         public string Password {get; set;}
 
         public bool EmailVerif {get; set;}
-        public string Token {get; set;} //No se esta usando
-
-        public string Rol {get; set;}
     }
 }

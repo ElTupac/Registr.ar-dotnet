@@ -10,6 +10,7 @@ using System.Net.Mail;
 using System.Net;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using System.Dynamic;
 
 namespace Registrar_dotnet.Controllers
 {
@@ -72,12 +73,54 @@ namespace Registrar_dotnet.Controllers
 
                 ViewBag.username = userCheck.UserName;
 
-                return View("Logueado", RegistrosDe(userCheck.ID));
+                ViewBag.Creador = RegistrosCreador(userCheck.ID);
+                ViewBag.Admin = RegistrosAdmin(userCheck.ID);
+                return View("Logueado");
             }
             else
             {
                 ViewBag.badLogin = true;
                 return View("Index");
+            }
+        }
+
+        public IActionResult AgregarAdministrado(string reg_id, string admin_id){
+            User usuario = HttpContext.Session.Get<User>("UsuarioLogueado");
+            if(usuario != null){
+                int registro_id = JsonConvert.DeserializeObject<int>(reg_id);
+                int administrador_id = JsonConvert.DeserializeObject<int>(admin_id);
+                if(!AgregarAdmin(administrador_id, registro_id, usuario.ID)){
+                    ViewBag.AddAdmin = false;
+                }else{
+                    ViewBag.AddAdmin = true;
+                }
+            }else{
+                ViewBag.NoAuth = true;
+            }
+            
+            ViewBag.Creador = RegistrosCreador(usuario.ID);
+            ViewBag.Admin = RegistrosAdmin(usuario.ID);
+            return View("Logueado");
+        }
+
+        private bool AgregarAdmin(int admin_id, int reg_id, int creador_id){
+            if(admin_id == creador_id) return false;
+            Registro registro = db.Registros.FirstOrDefault(r => r.ID == reg_id && r.CreadorID == creador_id);
+            if(registro != null){
+                User newAdmin = db.Users.FirstOrDefault(u => u.ID == admin_id);
+                if(newAdmin != null){
+                    string admins = registro.Administradores;
+                    List<int> admins_ids = JsonConvert.DeserializeObject<int[]>(admins).ToList();
+                    admins_ids.Add(newAdmin.ID);
+                    registro.Administradores = JsonConvert.SerializeObject(admins_ids);
+                    db.Registros.Update(registro);
+                    db.SaveChanges();
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
             }
         }
 
@@ -94,7 +137,9 @@ namespace Registrar_dotnet.Controllers
 
                 db.Registros.Add(nuevoRegistro);
                 db.SaveChanges();
-                return View("Logueado", RegistrosDe(usuario.ID));
+                ViewBag.Creador = RegistrosCreador(usuario.ID);
+                ViewBag.Admin = RegistrosAdmin(usuario.ID);
+                return View("Logueado");
             }else{
                 //Por alguna razon no llego el nombre del nuevo registro
                 return View("ErrorView");
@@ -111,8 +156,10 @@ namespace Registrar_dotnet.Controllers
                 if(reg != null) db.Registros.Remove(reg);
             }
             db.SaveChanges();
-            
-            return View("Logueado", RegistrosDe(usuario.ID));
+
+            ViewBag.Creador = RegistrosCreador(usuario.ID);
+            ViewBag.Admin = RegistrosAdmin(usuario.ID);
+            return View("Logueado");
         }
 
         public IActionResult PausarLogs(string reg_ids){
@@ -121,7 +168,9 @@ namespace Registrar_dotnet.Controllers
 
             pausaLogs(ids, usuario);
 
-            return View("Logueado", RegistrosDe(usuario.ID));
+            ViewBag.Creador = RegistrosCreador(usuario.ID);
+            ViewBag.Admin = RegistrosAdmin(usuario.ID);
+            return View("Logueado");
         }
 
         public void pausaLogs(List<int> ids, User usuario){
@@ -152,7 +201,9 @@ namespace Registrar_dotnet.Controllers
 
             pausaRegs(ids, usuario);
 
-            return View("Logueado", RegistrosDe(usuario.ID));
+            ViewBag.Creador = RegistrosCreador(usuario.ID);
+            ViewBag.Admin = RegistrosAdmin(usuario.ID);
+            return View("Logueado");
         }
         public void pausaRegs(List<int> ids, User usuario){
             if(ids.Count() == 1){
@@ -184,14 +235,21 @@ namespace Registrar_dotnet.Controllers
             pausaLogs(ids, usuario);
             pausaRegs(ids, usuario);
 
-            return View("Logueado", RegistrosDe(usuario.ID));
+            ViewBag.Creador = RegistrosCreador(usuario.ID);
+            ViewBag.Admin = RegistrosAdmin(usuario.ID);
+            return View("Logueado");
         }
 
-        public List<Registro> RegistrosDe(int _id){
-            List<Registro> registros = db.Registros.Where(r => r.CreadorID == _id).ToList();
-            return registros;
-        }
+        public List<Registro> RegistrosCreador(int _id){
+            List<Registro> registrosCreador = db.Registros.Where(r => r.CreadorID == _id).ToList();
 
+            return registrosCreador;
+        }
+        public List<Registro> RegistrosAdmin(int _id){
+            List<Registro> registrosAdmin = db.Registros.Where(r => r.Administradores.Contains($"{_id}")).ToList();
+
+            return registrosAdmin;
+        }
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger, UserContext context)
@@ -203,7 +261,11 @@ namespace Registrar_dotnet.Controllers
         public IActionResult Index()
         {
             User usuario = HttpContext.Session.Get<User>("UsuarioLogueado");
-            if(usuario != null) return View("Logueado", RegistrosDe(usuario.ID));
+            if(usuario != null) {
+                ViewBag.Creador = RegistrosCreador(usuario.ID);
+                ViewBag.Admin = RegistrosAdmin(usuario.ID);
+                return View("Logueado");
+            }
             else return View();
         }
 
