@@ -1,6 +1,5 @@
 window.onload = () => {
-    const checkboxes = document.querySelectorAll("input[type=checkbox]");
-    console.log(checkboxes);
+    const checkboxes = document.querySelectorAll('.registrospropios');
     let checked = [];
 
     for(let i in checkboxes){
@@ -11,7 +10,6 @@ window.onload = () => {
             }else{
                 removeChecks(_id);
             }
-            console.log(checked);
         };
     }
 

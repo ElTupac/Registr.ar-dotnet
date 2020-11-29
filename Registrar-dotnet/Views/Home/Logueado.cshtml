@@ -2,9 +2,29 @@
     ViewData["Title"] = ViewBag.username;
 }
 
+@{
+    bool badAdminMail = (ViewBag.NoMail != null);
+    bool badReg = (ViewBag.NoReg != null);
+    bool autoAdmin = (ViewBag.autoAdmin != null);
+    var adminSolicitado = (ViewBag.AddAdmin != null) ? ViewBag.AddAdmin : null;
+}
+
 <div class="text-center">
     <h1>Registros de @ViewBag.username</h1>
-
+    @if(badAdminMail){
+        <p style="color: red; margin: 0;">No se encontro un usuario con ese mail. <strong>Checkea que este bien escrito.</strong></p>
+    }else if(badReg){
+        <p style="color: red; margin: 0;">Hubo un error con el registro. <strong>Intentalo nuevamente</strong></p>
+    }else if(autoAdmin){
+        <p style="color: red; margin: 0;"><strong>No</strong> podes asignarte como <strong>Administrador</strong> a tus propios registros</p>
+    }else if(adminSolicitado != null){
+        if(adminSolicitado){
+            <p style="color: lightgreen; margin: 0;">Solicitud enviada a <strong>@ViewBag.newAdmin</strong></p>
+        }else{
+            <!-- No esta funcionando esta parte, en algun momento revisar que wea -->
+            <p style="color: lightgreen; margin: 0;">Ya se envio anteriormente la solicitud a <strong>@ViewBag.newAdmin</strong></p>
+        }
+    }
     @if(ViewBag.Creador.Count > 0)
     {
         <table>
@@ -15,11 +35,13 @@
                 <th><strong>Pago</strong></th>
                 <th><strong>Loguear</strong></th>
                 <th><strong>Registrar</strong></th>
+                <th><strong>Administradores</strong></th>
+                <th><strong>Agregar admin</strong></th>
             </tr>
                 @foreach (var item in ViewBag.Creador)
                 {
                     <tr>
-                        <td><input type="checkbox" id='@item.ID-check'></td>
+                        <td><input type="checkbox" id='@item.ID-check' class="registrospropios"></td>
                         <td class="registro-id">@item.ID</td>
                         <td class="registro-nombre">@item.Nombre</td>
                         @{var premium = item.Premium ? "✅" : "❌";}
@@ -28,6 +50,24 @@
                         <td id='@item.ID-logcheck'>@pauseLogs</td>
                         @{var pauseRegs = !item.pauseRegs ? "✅" : "❌";}
                         <td id='@item.ID-regcheck'>@pauseRegs</td>
+                        <td><select name="administradores" id='@item.ID-select'>
+                            <option value="0" selected></option>
+                            @if (item.Admins != null)
+                            {
+                                foreach (var admin in item.Admins)
+                                {
+                                    <option value='@admin.ID'>@admin.Username</option>
+                                }
+                            }
+                        </select>
+                        </td>
+                        <td>
+                            <form action='/Home/AgregarAdministrador' method="GET">
+                                <input type="email" name="admin_mail">
+                                <input type="hidden" value='@item.ID' name="reg_id">
+                                <button type="submit">+</button>
+                            </form>
+                        </td>
                     </tr>
                 }  
         </table>
@@ -39,8 +79,77 @@
     <button id="pausar-logs" style="display: none;"></button>
     <button id="pausar-regs" style="display: none;"></button>
     <button id="pausar-todo" style="display: none;"></button>
+    <br>
+    
+    <h1>Registros que administras</h1>
+
+    @if(ViewBag.Admin.Count > 0){
+        <table>
+            <tr>
+                <th></th>
+                <th><strong>ID</strong></th>
+                <th><strong>Nombre</strong></th>      
+                <th><strong>Loguear</strong></th>
+                <th><strong>Registrar</strong></th>
+            </tr>
+            @foreach(var reg in ViewBag.Admin)
+            {
+                <tr>
+                    <td><input type="checkbox" id='@reg.ID-check' class="registrosadmin"></td>
+                    <td>@reg.ID</td>
+                    <td>@reg.Nombre</td>
+                    @{var pauseLogs = !reg.pauseLogs ? "✅" : "❌";}
+                    <td>@pauseLogs</td>
+                    @{var pauseRegs = !reg.pauseRegs ? "✅" : "❌";}
+                    <td>@pauseRegs</td>
+                </tr>
+            }
+        </table>
+    }else {<h2><strong>Todavia no administras registros de otros</strong><br>Divertite con los tuyos</h2>}
 
     <br>
+    <button id="pausar-logs-admin" style="display: none;"></button>
+    <button id="pausar-regs-admin" style="display: none;"></button>
+    <button id="pausar-todo-admin" style="display: none;"></button>
+    <br>
+
+    @if(ViewBag.Solicitudes.Count > 0){
+        <table>
+            <tr>
+                <th><strong>ID</strong></th>
+                <th><strong>De</strong></th>
+                <th><strong>Para</strong></th>
+                <th><strong>Razon</strong></th>
+                <th><strong>Acciones</strong></th>
+            </tr>
+            @foreach (Solicitud solicitud in ViewBag.Solicitudes)
+            {
+                <tr>
+                    <td>@solicitud.ID</td>
+                    <td>@solicitud.FromName</td>
+                    <td>@solicitud.ToName</td>
+                    @switch (solicitud.Action)
+                    {
+                        case "AddAdmin":
+                        <td>Agregar administrador</td>
+                        break;
+                    }
+                    @if(ViewBag.username == solicitud.FromName){
+                        <td>
+                            <button id='@solicitud.ID-cancelar'>Cancelar solicitud</button>
+                        </td>
+                    }else{
+                        <td>
+                            <button id='@solicitud.ID-aceptar'>Aceptar</button>
+                            <button id='@solicitud.ID-rechazar'>Rechazar</button>
+                        </td>
+                    }
+                </tr>
+            }
+        </table>
+    }
+
+
     <br>
 
     <h3>Nuevo registro</h3>
@@ -58,5 +167,6 @@
     </form>
 
 
-    <script src="~/js/accionesRegistros.js"></script>
+    <script src="~/js/registrosPropios.js"></script>
+    <script src="~/js/registrosAdmin.js"></script>
 </div>

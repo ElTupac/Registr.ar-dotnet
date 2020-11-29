@@ -13,6 +13,8 @@ namespace Registrar_dotnet.Models
         [Required]
         public int CreadorID {get; set;}
         public string Administradores {get; set;}
+        [NotMapped]
+        public List<UserEssentials> Admins {get; set;} //No guardar datos en db aca
         public bool Premium {get; set;}
         public string nombrePropiedad {get; set;}
         public string Adicionales {get; set;}
