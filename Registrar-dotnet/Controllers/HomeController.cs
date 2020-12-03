@@ -10,7 +10,6 @@ using System.Net.Mail;
 using System.Net;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using System.Dynamic;
 
 namespace Registrar_dotnet.Controllers
 {

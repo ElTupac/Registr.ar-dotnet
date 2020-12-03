@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Registrar_dotnet.Models
 {
-    public class Cliente
+    public class UsuarioFinal
     {
         [Key][DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID {get; set;}
@@ -18,6 +18,7 @@ namespace Registrar_dotnet.Models
         public bool EmailVerif {get; set;}
 
         public bool FreeCheck {get; set;}
+        public string FreeCheckName {get; set;}
 
         public string Adicionales {get; set;}
         [Required]

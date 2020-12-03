@@ -11,7 +11,7 @@ namespace Registrar_dotnet.Models
 
         public DbSet<User> Users {get; set;}
         public DbSet<Registro> Registros {get; set;}
-        public DbSet<Cliente> Clientes {get; set;}
+        public DbSet<UsuarioFinal> UsuariosFinales {get; set;}
         public DbSet<Solicitud> Solicitudes {get; set;}
     }
 }
