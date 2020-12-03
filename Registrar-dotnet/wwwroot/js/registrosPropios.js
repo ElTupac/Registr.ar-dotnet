@@ -86,3 +86,13 @@ window.onload = () => {
         }
     }
 };
+
+function EliminarAdministrador(reg_id){
+    const selector = document.getElementById(`${reg_id}-select`);
+    if(selector.value != "0"){
+        let URL = window.location.href;
+        URL = URL.split(window.location.pathname)[0];
+        URL = `${URL}/Home/EliminarAdministrador?reg_id=${reg_id}&admin_id=${selector.value}`;
+        window.location.href = URL;
+    }
+}

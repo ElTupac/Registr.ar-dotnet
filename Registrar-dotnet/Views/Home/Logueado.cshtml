@@ -9,6 +9,7 @@
     var adminSolicitado = (ViewBag.AddAdmin != null) ? ViewBag.AddAdmin : null;
     var cancelSolicitud = (ViewBag.cancelSoli != null) ? ViewBag.cancelSoli : null;
     var aceptarSoli = (ViewBag.aceptarSoli != null) ? ViewBag.aceptarSoli : null;
+    var adminDeleted = (ViewBag.adminDeleted != null) ? ViewBag.adminDeleted : null; 
 }
 
 <div class="text-center">
@@ -38,6 +39,12 @@
         }else{
             <p style="color: red; margin: 0;">Algo salio mal. <strong>Intentelo nuevamente</strong></p>
         }
+    }else if(adminDeleted != null){
+        if(adminDeleted){
+            <p style="color: #4BB543; margin: 0;">Administrador Removido</p>
+        }else{
+            <p style="color: #4BB543; margin: 0;">Hubo un error eliminando el administrador. <strong>Intentelo nuevamente.</strong></p>
+        }
     }
     @if(ViewBag.Creador.Count > 0)
     {
@@ -64,16 +71,18 @@
                         <td id='@item.ID-logcheck'>@pauseLogs</td>
                         @{var pauseRegs = !item.pauseRegs ? "✅" : "❌";}
                         <td id='@item.ID-regcheck'>@pauseRegs</td>
-                        <td><select name="administradores" id='@item.ID-select'>
-                            <option value="0" selected></option>
-                            @if (item.Admins != null)
-                            {
-                                foreach (var admin in item.Admins)
+                        <td>
+                            <select name="administradores" id='@item.ID-select'>
+                                <option value=0 selected></option>
+                                @if (item.Admins != null)
                                 {
-                                    <option value='@admin.ID'>@admin.ID - @admin.Username</option>
+                                    foreach (var admin in item.Admins)
+                                    {
+                                        <option value='@admin.ID'>@admin.ID - @admin.Username</option>
+                                    }
                                 }
-                            }
-                        </select>
+                            </select>
+                            <button type="button" onclick='EliminarAdministrador(@item.ID)' class="btn-eliminar">Eliminar</button>
                         </td>
                         <td>
                             <form action='/Home/AgregarAdministrador' method="GET">
@@ -89,7 +98,7 @@
     else {<h2><strong>Todavia no tenes creado registros</strong><br>Empieza creando uno</h2>}
 
     <br>
-    <button id="btn-eliminar" style="display: none;">Eliminar</button>
+    <button id="btn-eliminar" class="btn-eliminar" style="display: none;">Eliminar</button>
     <button id="pausar-logs" style="display: none;"></button>
     <button id="pausar-regs" style="display: none;"></button>
     <button id="pausar-todo" style="display: none;"></button>

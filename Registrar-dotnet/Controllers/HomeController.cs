@@ -168,6 +168,33 @@ namespace Registrar_dotnet.Controllers
             }
         }
 
+        public IActionResult EliminarAdministrador(string reg_id, string admin_id){
+            User usuario = HttpContext.Session.Get<User>("UsuarioLogueado");
+            if(usuario != null){
+                int _idParsed= JsonConvert.DeserializeObject<int>(admin_id);
+                User admin = db.Users.FirstOrDefault(u => u.ID == _idParsed);
+                if(admin != null){
+                    int registro_id = JsonConvert.DeserializeObject<int>(reg_id);
+                    Registro registro = db.Registros.FirstOrDefault(r => r.ID == registro_id);
+                    if(registro != null){
+                        bool check = EliminarAdmin(_idParsed, registro_id, usuario.ID);
+                        if(check){
+                            ViewBag.adminDeleted = true;
+                        }else{
+                            ViewBag.adminDeleted = false;
+                        }
+                        return VistaLogueado(usuario.ID, usuario.UserName);
+                    }else{
+                        ViewBag.badReg = true;
+                        return VistaLogueado(usuario.ID, usuario.UserName);
+                    }
+                }else {
+                    ViewBag.aceptarSoli = false;
+                    return VistaLogueado(usuario.ID, usuario.UserName);
+                }
+            }else return View("Index");
+        }
+
         public ViewResult VistaLogueado(int _id, string name){
             ViewBag.Creador = RegistrosCreador(_id);
             ViewBag.Admin = RegistrosAdmin(_id);
@@ -201,6 +228,22 @@ namespace Registrar_dotnet.Controllers
             }else{
                 return false;
             }
+        }
+
+        private bool EliminarAdmin(int admin_id, int reg_id, int creador_id){
+            if(admin_id == creador_id) return false;
+            Registro registro = db.Registros.FirstOrDefault(r => r.ID == reg_id && r.CreadorID == creador_id);
+            if(registro != null){
+                User admin = db.Users.FirstOrDefault(u => u.ID == admin_id);
+                if(admin != null){
+                    List<int> admins = JsonConvert.DeserializeObject<int[]>(registro.Administradores).ToList();
+                    admins.Remove(admin_id);
+                    registro.Administradores = JsonConvert.SerializeObject(admins);
+                    db.Registros.Update(registro);
+                    db.SaveChanges();
+                    return true;
+                }else return false;
+            }else return false;
         }
 
         public IActionResult CrearRegistro(string nombre)
