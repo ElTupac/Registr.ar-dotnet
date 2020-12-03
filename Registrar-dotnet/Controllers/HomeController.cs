@@ -126,6 +126,46 @@ namespace Registrar_dotnet.Controllers
             }        
         }
 
+        public IActionResult AceptarSoli(int soli_id){
+            User usuario = HttpContext.Session.Get<User>("UsuarioLogueado");
+            if(usuario != null){
+                Solicitud solicitud = db.Solicitudes.FirstOrDefault(s => s.ID == soli_id && s.To == usuario.ID);
+                if(solicitud != null){
+                    bool check = AgregarAdmin(solicitud.To, solicitud.RelatedReg, solicitud.From);
+                    if(check){
+                        ViewBag.aceptarSoli = true;
+                        return VistaLogueado(usuario.ID, usuario.UserName);
+                    }else{
+                        ViewBag.aceptarSoli = false;
+                        return VistaLogueado(usuario.ID, usuario.UserName);
+                    }
+                }else{
+                    ViewBag.aceptarSoli = false;
+                    return VistaLogueado(usuario.ID, usuario.UserName);
+                }
+            }else{
+                return View("Index");
+            }
+        }
+
+        public IActionResult CancelarSoli(int soli_id){
+            User usuario = HttpContext.Session.Get<User>("UsuarioLogueado");
+            if(usuario != null){
+                Solicitud solicitud = db.Solicitudes.FirstOrDefault(s => s.ID == soli_id);
+                if(solicitud != null){
+                    db.Solicitudes.Remove(solicitud);
+                    db.SaveChanges();
+                    ViewBag.cancelSoli = true;
+                    return VistaLogueado(usuario.ID, usuario.UserName);
+                }else{
+                    ViewBag.cancelSoli = false;
+                    return VistaLogueado(usuario.ID, usuario.UserName);
+                }
+            }else{
+                return View("Index");
+            }
+        }
+
         public ViewResult VistaLogueado(int _id, string name){
             ViewBag.Creador = RegistrosCreador(_id);
             ViewBag.Admin = RegistrosAdmin(_id);
@@ -141,8 +181,14 @@ namespace Registrar_dotnet.Controllers
                 User newAdmin = db.Users.FirstOrDefault(u => u.ID == admin_id);
                 if(newAdmin != null){
                     string admins = registro.Administradores;
-                    List<int> admins_ids = JsonConvert.DeserializeObject<int[]>(admins).ToList();
-                    admins_ids.Add(newAdmin.ID);
+                    List<int> admins_ids;
+                    if(admins != null){
+                        admins_ids = JsonConvert.DeserializeObject<int[]>(admins).ToList();
+                        admins_ids.Add(newAdmin.ID);
+                    }else{
+                        admins_ids = new List<int>();
+                        admins_ids.Add(newAdmin.ID);
+                    }
                     registro.Administradores = JsonConvert.SerializeObject(admins_ids);
                     db.Registros.Update(registro);
                     db.SaveChanges();

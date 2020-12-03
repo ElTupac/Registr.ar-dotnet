@@ -7,6 +7,8 @@
     bool badReg = (ViewBag.NoReg != null);
     bool autoAdmin = (ViewBag.autoAdmin != null);
     var adminSolicitado = (ViewBag.AddAdmin != null) ? ViewBag.AddAdmin : null;
+    var cancelSolicitud = (ViewBag.cancelSoli != null) ? ViewBag.cancelSoli : null;
+    var aceptarSoli = (ViewBag.aceptarSoli != null) ? ViewBag.aceptarSoli : null;
 }
 
 <div class="text-center">
@@ -19,10 +21,22 @@
         <p style="color: red; margin: 0;"><strong>No</strong> podes asignarte como <strong>Administrador</strong> a tus propios registros</p>
     }else if(adminSolicitado != null){
         if(adminSolicitado){
-            <p style="color: lightgreen; margin: 0;">Solicitud enviada a <strong>@ViewBag.newAdmin</strong></p>
+            <p style="color: #4BB543; margin: 0;">Solicitud enviada a <strong>@ViewBag.newAdmin</strong></p>
         }else{
             <!-- No esta funcionando esta parte, en algun momento revisar que wea -->
-            <p style="color: lightgreen; margin: 0;">Ya se envio anteriormente la solicitud a <strong>@ViewBag.newAdmin</strong></p>
+            <p style="color: #4BB543; margin: 0;">Ya se envio anteriormente la solicitud a <strong>@ViewBag.newAdmin</strong></p>
+        }
+    }else if(cancelSolicitud != null){
+        if(cancelSolicitud){
+            <p style="color: #4BB543; margin: 0;"><strong>Solicitud cancelada</strong></p>
+        }else{
+            <p style="color: red; margin: 0;">No se pudo cancelar la solicitud. <strong>Intente nuevamente</strong></p>
+        }
+    }else if(aceptarSoli != null){
+        if(aceptarSoli){
+            <p style="color: #4BB543; margin: 0;"><strong>Solicitud aceptada</strong></p>
+        }else{
+            <p style="color: red; margin: 0;">Algo salio mal. <strong>Intentelo nuevamente</strong></p>
         }
     }
     @if(ViewBag.Creador.Count > 0)
@@ -105,7 +119,7 @@
                 </tr>
             }
         </table>
-    }else {<h2><strong>Todavia no administras registros de otros</strong><br>Divertite con los tuyos</h2>}
+    }else {<h3><strong>Todavia no administras registros de otros</strong><br>Divertite con los tuyos</h3>}
 
     <br>
     <button id="pausar-logs-admin" style="display: none;"></button>
@@ -136,12 +150,12 @@
                     }
                     @if(ViewBag.username == solicitud.FromName){
                         <td>
-                            <button id='@solicitud.ID-cancelar'>Cancelar solicitud</button>
+                            <button id='@solicitud.ID-cancelar' class="cancelar-soli">Cancelar solicitud</button>
                         </td>
                     }else{
                         <td>
-                            <button id='@solicitud.ID-aceptar'>Aceptar</button>
-                            <button id='@solicitud.ID-rechazar'>Rechazar</button>
+                            <button id='@solicitud.ID-aceptar' class="aceptar-soli">Aceptar</button>
+                            <button id='@solicitud.ID-rechazar' class="rechazar-soli">Rechazar</button>
                         </td>
                     }
                 </tr>
@@ -169,4 +183,5 @@
 
     <script src="~/js/registrosPropios.js"></script>
     <script src="~/js/registrosAdmin.js"></script>
+    <script src="~/js/solicitudes.js"></script>
 </div>
