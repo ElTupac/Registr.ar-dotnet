@@ -133,6 +133,8 @@ namespace Registrar_dotnet.Controllers
                 if(solicitud != null){
                     bool check = AgregarAdmin(solicitud.To, solicitud.RelatedReg, solicitud.From);
                     if(check){
+                        db.Solicitudes.Remove(solicitud);
+                        db.SaveChanges();
                         ViewBag.aceptarSoli = true;
                         return VistaLogueado(usuario.ID, usuario.UserName);
                     }else{
@@ -184,7 +186,7 @@ namespace Registrar_dotnet.Controllers
                     List<int> admins_ids;
                     if(admins != null){
                         admins_ids = JsonConvert.DeserializeObject<int[]>(admins).ToList();
-                        admins_ids.Add(newAdmin.ID);
+                        if(!admins_ids.Contains(newAdmin.ID)) admins_ids.Add(newAdmin.ID);
                     }else{
                         admins_ids = new List<int>();
                         admins_ids.Add(newAdmin.ID);
@@ -311,7 +313,17 @@ namespace Registrar_dotnet.Controllers
             List<Registro> registrosCreador = db.Registros.Where(r => r.CreadorID == _id).ToList();
             foreach(Registro registro in registrosCreador){
                 if(registro.Administradores != null){
-                    registro.Admins = JsonConvert.DeserializeObject<UserEssentials[]>(registro.Administradores).ToList();
+                    registro.Admins = new List<UserEssentials>();
+                    List<int> ids = JsonConvert.DeserializeObject<int[]>(registro.Administradores).ToList();
+                    foreach(int id in ids){
+                        User admin = db.Users.FirstOrDefault(u => u.ID == id);
+                        registro.Admins.Add(new UserEssentials(){
+                            ID = admin.ID,
+                            Username = admin.UserName,
+                            Mail = admin.UserName
+                        });
+                    }
+                    
                 }
             }
             return registrosCreador;
