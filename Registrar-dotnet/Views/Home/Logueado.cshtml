@@ -24,7 +24,6 @@
         if(adminSolicitado){
             <p style="color: #4BB543; margin: 0;">Solicitud enviada a <strong>@ViewBag.newAdmin</strong></p>
         }else{
-            <!-- No esta funcionando esta parte, en algun momento revisar que wea -->
             <p style="color: #4BB543; margin: 0;">Ya se envio anteriormente la solicitud a <strong>@ViewBag.newAdmin</strong></p>
         }
     }else if(cancelSolicitud != null){
@@ -58,6 +57,7 @@
                 <th><strong>Registrar</strong></th>
                 <th><strong>Administradores</strong></th>
                 <th><strong>Agregar admin</strong></th>
+                <th><strong>Configurar</strong></th>
             </tr>
                 @foreach (var item in ViewBag.Creador)
                 {
@@ -90,6 +90,11 @@
                                 <input type="hidden" value='@item.ID' name="reg_id">
                                 <button type="submit">+</button>
                             </form>
+                        </td>
+                        <td>
+                            <button onclick='entrarConfig(@item.ID)'>
+                                <img src="~/images/settings.png" alt="configuracion" style="height: 23px;">
+                            </button>
                         </td>
                     </tr>
                 }  
@@ -192,5 +197,6 @@
 
     <script src="~/js/registrosPropios.js"></script>
     <script src="~/js/registrosAdmin.js"></script>
+    <script src="~/js/btnConfig.js"></script>
     <script src="~/js/solicitudes.js"></script>
 </div>

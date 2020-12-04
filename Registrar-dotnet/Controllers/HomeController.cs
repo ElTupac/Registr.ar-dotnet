@@ -17,6 +17,26 @@ namespace Registrar_dotnet.Controllers
     {
         private readonly UserContext db;
 
+        //[Route("{reg_id}")]
+        [HttpGet]
+        public IActionResult RegSettings(string reg_id)
+        {
+            User usuario = HttpContext.Session.Get<User>("UsuarioLogueado");
+            if(usuario != null){
+                int registro_id = JsonConvert.DeserializeObject<int>(reg_id);
+                Registro registro = db.Registros.FirstOrDefault(r => r.ID == registro_id && r.CreadorID == usuario.ID);
+                if(registro != null){
+                    ViewBag.registro = registro;
+                    return View("RegistroConfig");
+                }else{
+                    ViewBag.badReg = true;
+                    return VistaLogueado(usuario.ID, usuario.UserName);
+                }
+            }else{
+                return View("Index");
+            }
+        }
+
         [HttpPost]
         public IActionResult RegisterUser(string username, string email, string password)
         {

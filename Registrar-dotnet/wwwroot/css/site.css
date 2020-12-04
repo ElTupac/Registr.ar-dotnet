@@ -137,3 +137,16 @@ body {
   background-color: red;
   color: #fff;
 }
+
+#pausar-Logueos{
+  border-radius: 3px;
+}
+
+#pausar-registros{
+  border-radius: 3px;
+}
+
+#upgrade{
+  background: #4BB543;
+  border-radius: 3px;
+}

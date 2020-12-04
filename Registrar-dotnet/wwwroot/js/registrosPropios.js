@@ -1,4 +1,4 @@
-window.onload = () => {
+window.addEventListener('load', e => {
     const checkboxes = document.querySelectorAll('.registrospropios');
     let checked = [];
 
@@ -85,7 +85,7 @@ window.onload = () => {
             pausarTodo.style.display = "block";
         }
     }
-};
+});
 
 function EliminarAdministrador(reg_id){
     const selector = document.getElementById(`${reg_id}-select`);
@@ -95,4 +95,4 @@ function EliminarAdministrador(reg_id){
         URL = `${URL}/Home/EliminarAdministrador?reg_id=${reg_id}&admin_id=${selector.value}`;
         window.location.href = URL;
     }
-}
+};

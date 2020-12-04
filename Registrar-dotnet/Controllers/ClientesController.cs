@@ -11,6 +11,9 @@ using System.Net;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
+//Popups de 360 x 640
+//Medida standard de celulares
+
 namespace Registrar_dotnet.Controllers
 {
     public class ClientesController : Controller

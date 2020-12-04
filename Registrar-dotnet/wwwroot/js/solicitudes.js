@@ -1,4 +1,4 @@
-window.onload = () => {
+window.addEventListener('load', e => {
     const btnsCancelar = document.querySelectorAll('.cancelar-soli');
     const btnsAceptar = document.querySelectorAll('.aceptar-soli');
     const btnsRechazar = document.querySelectorAll('.rechazar-soli');
@@ -32,4 +32,4 @@ window.onload = () => {
             window.location.href = URL;
         };
     }
-}
+});

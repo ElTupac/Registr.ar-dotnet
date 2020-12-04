@@ -1,4 +1,4 @@
-window.onload = () => {
+window.addEventListener('load', e => {
     const checkboxes = document.querySelectorAll('.registrosadmin');
     let checked = [];
 
@@ -75,4 +75,4 @@ window.onload = () => {
             pausarTodo.style.display = "block";
         }
     }
-}
+});
