@@ -19,29 +19,25 @@ window.addEventListener('load', e => {
     const pausarRegs = document.getElementById("pausar-regs");
     const pausarTodo = document.getElementById("pausar-todo");
     eliminar.addEventListener("click", e => {
-        let URL = window.location.href;
-        URL = URL.split(window.location.pathname)[0];
+        let URL = URLhostname();
         URL = `${URL}/Home/EliminarRegistros?reg_ids=${JSON.stringify(checked)}`;
         window.location.href = URL;
     });
 
     pausarLogs.addEventListener("click", e => {
-        let URL = window.location.href;
-        URL = URL.split(window.location.pathname)[0];
+        let URL = URLhostname();
         URL = `${URL}/Home/PausarLogs?reg_ids=${JSON.stringify(checked)}`;
         window.location.href = URL;
     });
 
     pausarRegs.addEventListener("click", e => {
-        let URL = window.location.href;
-        URL = URL.split(window.location.pathname)[0];
+        let URL = URLhostname();
         URL = `${URL}/Home/PausarRegs?reg_ids=${JSON.stringify(checked)}`;
         window.location.href = URL;
     });
 
     pausarTodo.addEventListener("click", e => {
-        let URL = window.location.href;
-        URL = URL.split(window.location.pathname)[0];
+        let URL = URLhostname();
         URL = `${URL}/Home/PausarTodo?reg_ids=${JSON.stringify(checked)}`;
         window.location.href = URL;
     });
@@ -96,3 +92,5 @@ function EliminarAdministrador(reg_id){
         window.location.href = URL;
     }
 };
+
+function URLhostname(){ return window.location.href.split(window.location.pathname)[0]; }

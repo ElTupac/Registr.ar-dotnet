@@ -14,6 +14,11 @@ window.addEventListener('load', e => {
     }else{
         btnRegistros.innerText = "Pausar registros";
     }
+
+    const login = document.getElementById("btn-login");
+    login.style.height = login.scrollHeight+"px";
+    const register = document.getElementById("btn-register");
+    register.style.height = register.scrollHeight+"px";
 });
 
 function EliminarAdministrador(reg_id){

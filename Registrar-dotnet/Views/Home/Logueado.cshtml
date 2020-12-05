@@ -73,12 +73,16 @@
                         <td id='@item.ID-regcheck'>@pauseRegs</td>
                         <td>
                             <select name="administradores" id='@item.ID-select'>
-                                <option value=0 selected></option>
-                                @if (item.Admins != null)
-                                {
-                                    foreach (var admin in item.Admins)
+                                @if(item.Admins.Count == 0){
+                                    <option value=0 selected>No Admins</option>
+                                }else{
+                                    <option value=0 selected></option>
+                                    @if (item.Admins != null)
                                     {
-                                        <option value='@admin.ID'>@admin.ID - @admin.Username</option>
+                                        foreach (var admin in item.Admins)
+                                        {
+                                            <option value='@admin.ID'>@admin.ID - @admin.Username</option>
+                                        }
                                     }
                                 }
                             </select>

@@ -150,3 +150,19 @@ body {
   background: #4BB543;
   border-radius: 3px;
 }
+
+.btn-section{
+  margin-left: 5%;
+  margin-top: 5%;
+  width: 90%;
+  border: black solid 1px;
+  border-radius: 5px;
+}
+
+.btn-section textarea{
+  resize: none;
+  overflow: hidden;
+  margin: 0;
+  margin-bottom: 2.5%;
+  width: 90%;
+}

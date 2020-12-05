@@ -26,6 +26,19 @@ namespace Registrar_dotnet.Controllers
                 int registro_id = JsonConvert.DeserializeObject<int>(reg_id);
                 Registro registro = db.Registros.FirstOrDefault(r => r.ID == registro_id && r.CreadorID == usuario.ID);
                 if(registro != null){
+                    string admins = registro.Administradores;
+                    if(admins != null){
+                        List<int> ids = JsonConvert.DeserializeObject<int[]>(admins).ToList();
+                        registro.Admins = new List<UserEssentials>();
+                        foreach(int id in ids){
+                            User admin = db.Users.FirstOrDefault(u => u.ID == id);
+                            registro.Admins.Add(new UserEssentials(){
+                                ID = admin.ID,
+                                Username = admin.UserName,
+                                Mail = admin.Mail
+                            });
+                        }
+                    }
                     ViewBag.registro = registro;
                     return View("RegistroConfig");
                 }else{

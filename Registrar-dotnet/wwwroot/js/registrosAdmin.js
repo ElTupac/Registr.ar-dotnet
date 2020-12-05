@@ -13,7 +13,6 @@ window.addEventListener('load', e => {
         };
     }
 
-    
     const pausarLogs = document.getElementById("pausar-logs-admin");
     const pausarRegs = document.getElementById("pausar-regs-admin");
     const pausarTodo = document.getElementById("pausar-todo-admin");

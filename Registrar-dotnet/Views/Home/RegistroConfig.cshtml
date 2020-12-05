@@ -27,7 +27,10 @@
             <td>@pauseRegs</td>
             <td>
                 <select name="administradores" id='@registro.ID-select'>
-                    <option value=0 selected></option>
+                    @if(registro.Admins.Count == 0){
+                        <option value=0 selected>No Admins</option>
+                    }else{
+                        <option value=0 selected></option>
                         @if (registro.Admins != null)
                         {
                             foreach (var admin in registro.Admins)
@@ -35,6 +38,7 @@
                                 <option value='@admin.ID'>@admin.ID - @admin.Username</option>
                             }
                         }
+                    }
                 </select>
                 <button type="button" onclick='EliminarAdministrador(@registro.ID)' class="btn-eliminar">Eliminar</button>
             </td>
@@ -53,6 +57,50 @@
         var regs = registro.pauseRegs ? true : false;
     }
     <input type="hidden" value='["@logs", "@regs"]' id="pauses-info">
+
+    <section class="btn-section">
+        <h2>Boton <strong>Login</strong></h2>
+        <p>(Copia y pega este codigo en tu pagina para utilizarlo)</p>
+        <textarea readonly id="btn-login">
+            <button id="Registrar-Login">Loguear</button>
+            <script>
+                let open = false;
+                document.getElementById('Registrar-Login').addEventListener('click', e => {
+                    if(!open){   
+                        open = true;
+                        URL = `https://localhost:5501/Clientes/LoginCliente?reg_id=@registro.ID&creator_id=@registro.CreadorID`;
+                        window.open(URL, 'Login - Registrar', 'width=360,height=640,scrollbars=NO,resizable=NO');
+                    }
+                });
+
+                function takeLogin(data){
+                    localStorage.setItem("infoLogin", JSON.stringify(data));
+                }
+            </script>
+        </textarea>
+    </section>
+
+    <section class="btn-section">
+        <h2>Boton <strong>Registrar</strong></h2>
+        <p>(Copia y pega este codigo en tu pagina para utilizarlo)</p>
+        <textarea readonly id="btn-register">
+            <button id="Registrar-Registro">Loguear</button>
+            <script>
+                let open = false;
+                document.getElementById('Registrar-Registro').addEventListener('click', e => {
+                    if(!open){   
+                        open = true;
+                        URL = `https://localhost:5501/Clientes/RegistroCliente?reg_id=@registro.ID&creator_id=@registro.CreadorID`;
+                        window.open(URL, 'Registro - Registrar', 'width=360,height=640,scrollbars=NO,resizable=NO');
+                    }
+                });
+
+                function takeRegister(data){
+                    localStorage.setItem("infoRegistro", JSON.stringify(data));
+                }
+            </script></textarea>
+    </section>
+
     <script src="~/js/btnConfig.js"></script>
     <script src="~/js/configView.js"></script>
 </div>
