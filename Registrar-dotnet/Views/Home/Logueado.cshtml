@@ -73,7 +73,7 @@
                         <td id='@item.ID-regcheck'>@pauseRegs</td>
                         <td>
                             <select name="administradores" id='@item.ID-select'>
-                                @if(item.Admins.Count == 0){
+                                @if(item.Admins == null || item.Admins.Count == 0){
                                     <option value=0 selected>No Admins</option>
                                 }else{
                                     <option value=0 selected></option>

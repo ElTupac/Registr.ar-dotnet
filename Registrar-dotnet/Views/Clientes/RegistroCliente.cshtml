@@ -1,0 +1,36 @@
+@{
+    Layout = "_ClientLayout";
+    ViewData["Title"] = "Registro";
+}
+
+@{
+    bool badReg = (ViewBag.badReg != null);
+    bool notSamePass = (ViewBag.notSamepass != null);
+    string display = "";
+}
+
+<div class="text-center">
+    <section class="login-sec">
+        <h1>Registrarse</h1>
+        @if(badReg){
+            <p style="margin: 0; color: red">Hubo un error con tu registro</p>
+        }
+        <form action='@Url.Action("RegistroFinal", "Clientes")' id="registerForm" method="POST">
+            <input type="text" name="username" placeholder="Usuario" required>
+            <br>
+            <input type="email" placeholder="Tu eMail" name="email" required>
+            <br>
+            <input id="password" type="password" name="password" placeholder="Contraseña" required>
+            <br>
+            <input id="password2" type="password" name="password2" placeholder="Repite contraseña" required>
+            @if(notSamePass) { display = "block"; }
+            else{ display = "none"; }
+            <p style='display: @display; color: red; margin: 0;' id="alerta">No coinciden las contraseñas</p>
+            <br>            
+            <button type="submit">Enviar</button>
+        </form>
+    </section>
+
+    <script defer src="~/js/formCheck.js"></script>
+    <script defer src="~/js/queryInfo.js"></script>
+</div>

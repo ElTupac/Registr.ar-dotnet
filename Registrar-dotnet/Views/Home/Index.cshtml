@@ -13,7 +13,7 @@
         <form action='@Url.Action("LoginUser", "Home")' method="POST">
             <input type="text" name="username" placeholder="Usuario/eMail" required>
             <br>
-            <input type="password" name="password" placeholder="Contrasenia" required>
+            <input type="password" name="password" placeholder="Contraseña" required>
             @if(badLogin){
                 <p style="color: red; margin: 0">Las credenciales ingresadas no son validas</p>
             }else{

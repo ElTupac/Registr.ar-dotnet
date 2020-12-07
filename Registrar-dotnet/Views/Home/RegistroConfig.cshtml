@@ -27,7 +27,7 @@
             <td>@pauseRegs</td>
             <td>
                 <select name="administradores" id='@registro.ID-select'>
-                    @if(registro.Admins.Count == 0){
+                    @if(registro.Admins == null || registro.Admins.Count == 0){
                         <option value=0 selected>No Admins</option>
                     }else{
                         <option value=0 selected></option>
@@ -64,11 +64,11 @@
         <textarea readonly id="btn-login">
             <button id="Registrar-Login">Loguear</button>
             <script>
-                let open = false;
+                let openLog = false;
                 document.getElementById('Registrar-Login').addEventListener('click', e => {
-                    if(!open){   
-                        open = true;
-                        URL = `https://localhost:5501/Clientes/LoginCliente?reg_id=@registro.ID&creator_id=@registro.CreadorID`;
+                    if(!openLog){   
+                        openLog = true;
+                        URL = `https://localhost:5001/Clientes/LoginCliente?reg_id=@registro.ID&creator_id=@registro.CreadorID`;
                         window.open(URL, 'Login - Registrar', 'width=360,height=640,scrollbars=NO,resizable=NO');
                     }
                 });
@@ -84,13 +84,13 @@
         <h2>Boton <strong>Registrar</strong></h2>
         <p>(Copia y pega este codigo en tu pagina para utilizarlo)</p>
         <textarea readonly id="btn-register">
-            <button id="Registrar-Registro">Loguear</button>
+            <button id="Registrar-Registro">Registrarse</button>
             <script>
-                let open = false;
+                let openReg = false;
                 document.getElementById('Registrar-Registro').addEventListener('click', e => {
-                    if(!open){   
-                        open = true;
-                        URL = `https://localhost:5501/Clientes/RegistroCliente?reg_id=@registro.ID&creator_id=@registro.CreadorID`;
+                    if(!openReg){   
+                        openReg = true;
+                        URL = `https://localhost:5001/Clientes/RegistroCliente?reg_id=@registro.ID&creator_id=@registro.CreadorID`;
                         window.open(URL, 'Registro - Registrar', 'width=360,height=640,scrollbars=NO,resizable=NO');
                     }
                 });

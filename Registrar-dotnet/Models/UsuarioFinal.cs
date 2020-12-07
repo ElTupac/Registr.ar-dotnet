@@ -18,8 +18,6 @@ namespace Registrar_dotnet.Models
         public bool EmailVerif {get; set;}
 
         public bool FreeCheck {get; set;}
-        public string FreeCheckName {get; set;}
-
         public string Adicionales {get; set;}
         [Required]
         public int RegistroID {get; set;}

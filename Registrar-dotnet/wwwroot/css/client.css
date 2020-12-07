@@ -1,0 +1,31 @@
+body{
+    margin: 0;
+    background-color: #e7e7e7;
+}
+.login-sec{
+    background-color: #fff;
+    position: relative;
+    left: 5%;
+    width: 90%;
+    height: 500px;
+    box-shadow: 5px 5px 1px gray;
+    border-radius: 10px;
+}
+
+.login-sec h1{
+    text-align: center;
+    position: relative;
+    top: 20px;
+    padding-bottom: 15px;
+}
+
+.login-sec input{
+    margin: 10px 10px;
+    border-radius: 10px;
+    width: 70%;
+}
+.login-sec button{
+    width: 40%;
+    border-radius: 10px;
+    margin: 10px 10px;
+}

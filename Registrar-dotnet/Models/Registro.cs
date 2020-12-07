@@ -16,7 +16,8 @@ namespace Registrar_dotnet.Models
         [NotMapped]
         public List<UserEssentials> Admins {get; set;} //No guardar datos en db aca
         public bool Premium {get; set;}
-        public string nombrePropiedad {get; set;}
+        
+        public string FreeCheckName {get; set;}
         public string Adicionales {get; set;}
 
         public bool pauseLogs {get; set;}
