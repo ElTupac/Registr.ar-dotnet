@@ -45,7 +45,7 @@ namespace Registrar_dotnet.Controllers
         public IActionResult RegistroFinal(int reg_id, int creator_id, string username, string email, string password, string password2){
             Registro registro = db.Registros.FirstOrDefault(r => r.ID == reg_id && r.CreadorID == creator_id);
             if(registro != null){
-                UsuarioFinal userCheck = db.UsuariosFinales.FirstOrDefault(u => u.Mail == email || u.UserName == username);
+                UsuarioFinal userCheck = db.UsuariosFinales.FirstOrDefault(u => u.RegistroID == reg_id && (u.UserName == username || u.Mail == email));
                 if(userCheck == null){
                     if(password == password2){
                         UsuarioFinal usuario = new UsuarioFinal(){
@@ -64,7 +64,8 @@ namespace Registrar_dotnet.Controllers
                         return View("RegistroCliente");
                     }
                 }else{
-                    //El mail o el usuario ya existen
+                    if(userCheck.UserName == username) ViewBag.notUser = true;
+                    else ViewBag.notMail = true;
                     return View("RegistroCliente");
                 }
             }else{

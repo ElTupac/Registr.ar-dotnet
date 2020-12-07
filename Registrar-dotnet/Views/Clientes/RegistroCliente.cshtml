@@ -6,6 +6,8 @@
 @{
     bool badReg = (ViewBag.badReg != null);
     bool notSamePass = (ViewBag.notSamepass != null);
+    bool notUser = (ViewBag.notUser != null);
+    bool notMail = (ViewBag.notMail != null);
     string display = "";
 }
 
@@ -17,9 +19,17 @@
         }
         <form action='@Url.Action("RegistroFinal", "Clientes")' id="registerForm" method="POST">
             <input type="text" name="username" placeholder="Usuario" required>
-            <br>
+            @if (notUser){
+                <p style='color: red; margin: 0;'>Nombre de usuario no disponible</p>
+            }else{
+                <br>
+            }
             <input type="email" placeholder="Tu eMail" name="email" required>
-            <br>
+            @if(notMail){
+                <p style='color: red; margin: 0;'>Mail no disponible</p>
+            }else{
+                <br>
+            }
             <input id="password" type="password" name="password" placeholder="Contraseña" required>
             <br>
             <input id="password2" type="password" name="password2" placeholder="Repite contraseña" required>
