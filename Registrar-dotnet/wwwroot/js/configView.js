@@ -15,10 +15,10 @@ window.addEventListener('load', e => {
         btnRegistros.innerText = "Pausar registros";
     }
 
-    const login = document.getElementById("btn-login");
-    login.style.height = login.scrollHeight+"px";
-    const register = document.getElementById("btn-register");
-    register.style.height = register.scrollHeight+"px";
+    const textAreas = document.querySelectorAll("textarea");
+    for(let i = 0; i < textAreas.length; i++){
+        textAreas[i].style.height = textAreas[i].scrollHeight + "px";
+    }
 });
 
 function EliminarAdministrador(reg_id){

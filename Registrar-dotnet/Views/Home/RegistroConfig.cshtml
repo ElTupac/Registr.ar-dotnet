@@ -62,21 +62,52 @@
         <h2>Boton <strong>Login</strong></h2>
         <p>(Copia y pega este codigo en tu pagina para utilizarlo)</p>
         <textarea readonly id="btn-login">
-            <button id="Registrar-Login">Loguear</button>
-            <script>
-                let openLog = false;
-                document.getElementById('Registrar-Login').addEventListener('click', e => {
-                    if(!openLog){   
-                        openLog = true;
-                        URL = `https://localhost:5001/Clientes/LoginCliente?reg_id=@registro.ID&creator_id=@registro.CreadorID`;
-                        window.open(URL, 'Login - Registrar', 'width=360,height=640,scrollbars=NO,resizable=NO');
-                    }
-                });
-
-                function takeLogin(data){
-                    localStorage.setItem("infoLogin", JSON.stringify(data));
-                }
-            </script>
+<button id="Registrar-Login" class="login">Loguear</button>
+<script>
+    document.getElementById('Registrar-Login').addEventListener('click', e => {
+        URL = `https://localhost:5001/Clientes/LoginCliente?reg_id=1&creator_id=1`;
+        let childRef = window.open(URL, 'Login - Registrar', 'width=360,height=640,scrollbars=NO,resizable=NO');
+        let parent = window.location.href;
+        const interval = setInterval(() => {
+            childRef.postMessage(parent, URL);
+        }, 500);
+        window.addEventListener("message", e => {
+            clearInterval(interval);
+            localStorage.setItem("LoginInfo", e.data);
+            childRef.close();
+        }, false);
+    });
+</script>
+        </textarea>
+        <p><strong>Algunos estilos</strong>(opcional)</p>
+        <textarea readonly>
+.login {
+    display: inline-block;
+    padding: 0.6em 1.5em;
+    margin: 0 0.3em 0.3em 0;
+    border-radius: 0.2em;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: sans-serif;
+    font-weight: 400;
+    color: #ffffff;
+    background-color: #5cb85c;
+    box-shadow: inset 0 -0.6em 1em -0.35em rgba(0, 0, 0, 0.17),
+        inset 0 0.6em 2em -0.3em rgba(255, 255, 255, 0.15),
+        inset 0 0 0em 0.05em rgba(255, 255, 255, 0.12);
+    text-align: center;
+    position: relative;
+    border: none;
+}
+.login:focus {
+    box-shadow: inset 0 0.6em 2em -0.3em rgba(0, 0, 0, 0.15),
+        inset 0 0 0em 0.05em rgba(255, 255, 255, 0.12);
+    outline: none;
+}
+.login:hover {
+    transform: scale(1.05);
+    transition: 0.2s ease;
+}
         </textarea>
     </section>
 
@@ -84,21 +115,53 @@
         <h2>Boton <strong>Registrar</strong></h2>
         <p>(Copia y pega este codigo en tu pagina para utilizarlo)</p>
         <textarea readonly id="btn-register">
-            <button id="Registrar-Registro">Registrarse</button>
-            <script>
-                let openReg = false;
-                document.getElementById('Registrar-Registro').addEventListener('click', e => {
-                    if(!openReg){   
-                        openReg = true;
-                        URL = `https://localhost:5001/Clientes/RegistroCliente?reg_id=@registro.ID&creator_id=@registro.CreadorID`;
-                        window.open(URL, 'Registro - Registrar', 'width=360,height=640,scrollbars=NO,resizable=NO');
-                    }
-                });
-
-                function takeRegister(data){
-                    localStorage.setItem("infoRegistro", JSON.stringify(data));
-                }
-            </script></textarea>
+<button id="Registrar-Registro" class="register">Registrarse</button>
+<script>
+    document.getElementById('Registrar-Registro').addEventListener('click', e => {
+        URL = `https://localhost:5001/Clientes/RegistroCliente?reg_id=1&creator_id=1`;
+        let childRef = window.open(URL, 'Registro - Registrar', 'width=360,height=640,scrollbars=NO,resizable=NO');
+        let parent  = window.location.href;
+        const interval = setInterval(() => {
+            childRef.postMessage(parent, URL);
+        }, 500);
+        window.addEventListener("message", e => {
+            clearInterval(interval);
+            localStorage.setItem("LoginInfo", e.data);
+            childRef.close();
+        });
+    });
+</script>
+        </textarea>
+        <p><strong>Algunos estilos</strong>(opcional)</p>
+        <textarea readonly>
+.register {
+    display: inline-block;
+    padding: 0.6em 1.5em;
+    margin: 0 0.3em 0.3em 0;
+    border-radius: 0.2em;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: sans-serif;
+    font-weight: 400;
+    color: #ffffff;
+    background-color: #0275d8;
+    box-shadow: inset 0 -0.6em 1em -0.35em rgba(0, 0, 0, 0.17),
+        inset 0 0.6em 2em -0.3em rgba(255, 255, 255, 0.15),
+        inset 0 0 0em 0.05em rgba(255, 255, 255, 0.12);
+    text-align: center;
+    position: relative;
+    border: none;
+}
+.register:focus {
+    box-shadow: inset 0 0.6em 2em -0.3em rgba(0, 0, 0, 0.15),
+        inset 0 0 0em 0.05em rgba(255, 255, 255, 0.12);
+    outline: none;
+}
+.register:hover {
+    transform: scale(1.05);
+    transition: 0.2s ease;
+}
+        </textarea>
     </section>
 
     <script src="~/js/btnConfig.js"></script>

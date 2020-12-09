@@ -166,3 +166,15 @@ body {
   margin-bottom: 2.5%;
   width: 90%;
 }
+
+textarea:focus {
+  box-shadow: 0px 2px 79px -41px rgba(0, 0, 0, 0.79);
+  outline: none;
+  transition: 0.3s ease;
+  font-weight: bold;
+  color: rgb(107, 107, 107);
+}
+.textarea {
+  font-family: sans-serif;
+  color: grey;
+}

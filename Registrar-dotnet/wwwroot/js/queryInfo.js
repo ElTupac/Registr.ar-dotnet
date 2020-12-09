@@ -6,8 +6,5 @@ window.addEventListener('load', e => {
     const register = document.getElementById("registerForm");
     if(register != null){
         register.action += `?reg_id=${reg_id}&creator_id=${creator_id}`;
-    }else{
-        const login = document.getElementById("loginForm");
-        login.action += `?reg_id=${reg_id}&creator_id=${creator_id}`;
     }
 });

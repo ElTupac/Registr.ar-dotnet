@@ -10,6 +10,8 @@ using System.Net.Mail;
 using System.Net;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using System.Web;
+using System.IO;
 
 //Popups de 360 x 640
 //Medida standard de celulares
@@ -26,19 +28,31 @@ namespace Registrar_dotnet.Controllers
         }
 
         [HttpPost]
-        public IActionResult LoginFinal(int reg_id, int creator_id, string username, string password){
+        public JsonResult LoginFinal(int reg_id, int creator_id, string username, string password){
             Registro registro = db.Registros.FirstOrDefault(r => r.ID == reg_id && r.CreadorID == creator_id);
             if(registro != null){
                 UsuarioFinal usuario = db.UsuariosFinales.FirstOrDefault(u => (u.UserName == username || u.Mail == username) && u.Password == password);
                 if(usuario != null){
-                    return View("ClienteLogueado");
+                    string URL = String.Format($"https://session-controller.herokuapp.com/newsession/{usuario.UserName}");
+                    WebRequest newUserLogged = WebRequest.Create(URL);
+                    newUserLogged.Method = "POST";
+                    newUserLogged.Headers.Add("api-key", "salamesalame");
+                    using (var writer = new StreamWriter(newUserLogged.GetRequestStream())){
+                        writer.Write("");
+                        writer.Flush();
+                        writer.Close();
+                        var httpResponse = (HttpWebResponse)newUserLogged.GetResponse();
+                        using (var reader = new StreamReader(httpResponse.GetResponseStream())){
+                            string response = reader.ReadToEnd();
+                            reader.Close();
+                            return Json(response);
+                        }
+                    }
                 }else{
-                    ViewBag.badLogin = true;
-                    return View("LoginCliente");
+                    return Json("NoUser");
                 }
             }else{
-                ViewBag.badReg = true;
-                return View("LoginCliente");
+                return Json("BadReg");
             }
         }
 

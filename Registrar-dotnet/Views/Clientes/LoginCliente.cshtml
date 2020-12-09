@@ -4,31 +4,25 @@
 }
 
 @{
-    bool badLogin = (ViewBag.badLogin != null);
-    bool badReg = (ViewBag.badReg != null);
     bool registrado = (ViewBag.Registrado != null);
 }
 
 <div class="text-center">
     <section class="login-sec">
         <h1>Login</h1>
-        @if(badReg){
-            <p style="margin: 0; color: red">Hubo un error con tu acceso</p>
-        }else if(registrado){
+        @if(registrado){
             <p style="margin: 0; color: #4BB543;"><strong>Listo!</strong> Ahora solo tenes que loguearte</p>
         }
-        <form id="loginForm" action='@Url.Action("LoginFinal", "Clientes")' method="POST">
-            <input type="text" name="username" placeholder="Usuario/eMail" required>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Usuario/eMail" required>
             <br>
-            <input type="password" name="password" placeholder="Contraseña" required>
-            @if(badLogin){
-                <p style="color: red; margin: 0">Las credenciales ingresadas no son validas</p>
-            }else{
-                <br>
-            }
+            <input type="password" id="password" placeholder="Contraseña" required>
+            <p id="alerta" style="color: red; margin: 0; display: none;">Las credenciales ingresadas no son validas</p>
+            <br>
             <button type="submit">Entrar</button>
         </form>
+        <img src="~/images/charging-circle.gif" id="charging" alt="charging" style="width: 150px; display: none;">
     </section>
 
-    <script defer src="~/js/queryInfo.js"></script>
+    <script src="~/js/loginForm.js"></script>
 </div>
