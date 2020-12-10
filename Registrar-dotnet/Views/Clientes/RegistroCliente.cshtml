@@ -9,6 +9,7 @@
     bool notUser = (ViewBag.notUser != null);
     bool notMail = (ViewBag.notMail != null);
     string display = "";
+    bool noRegs = (ViewBag.noRegs != null);
 }
 
 <div class="text-center">
@@ -36,8 +37,12 @@
             @if(notSamePass) { display = "block"; }
             else{ display = "none"; }
             <p style='display: @display; color: red; margin: 0;' id="alerta">No coinciden las contraseñas</p>
-            <br>            
-            <button type="submit">Enviar</button>
+            <br>
+            @if(noRegs) {
+                <p style='color: red; margin: 0;'>No se puede registrar en este momento. Intente mas tarde</p>
+            }else{
+                <button type="submit" >Enviar</button>
+            }
         </form>
     </section>
 

@@ -5,6 +5,7 @@
 
 @{
     bool registrado = (ViewBag.Registrado != null);
+    bool noLogin = (ViewBag.noLogin != null);
 }
 
 <div class="text-center">
@@ -19,7 +20,11 @@
             <input type="password" id="password" placeholder="Contraseña" required>
             <p id="alerta" style="color: red; margin: 0; display: none;">Las credenciales ingresadas no son validas</p>
             <br>
-            <button type="submit">Entrar</button>
+            @if(noLogin){
+                <p style='color: red; margin: 0;'>No se puede acceder en este momento. Intente mas tarde</p>
+            }else{
+                <button type="submit">Entrar</button>
+            }
         </form>
         <img src="~/images/charging-circle.gif" id="charging" alt="charging">
     </section>

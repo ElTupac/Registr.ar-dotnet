@@ -20,11 +20,23 @@ namespace Registrar_dotnet.Controllers
 {
     public class ClientesController : Controller
     {
-        public IActionResult LoginCliente(){
-            return View();
+        public IActionResult LoginCliente(int reg_id, int creator_id){
+            Registro registro = db.Registros.FirstOrDefault(r => r.ID == reg_id && r.CreadorID == creator_id);
+            if(registro != null){
+                if(registro.pauseLogs) ViewBag.noLogin = true;
+                return View();
+            }else{
+                return View("PopUpErrorView");
+            }
         }
-        public IActionResult RegistroCliente(){
-            return View();
+        public IActionResult RegistroCliente(int reg_id, int creator_id){
+            Registro registro = db.Registros.FirstOrDefault(r => r.ID == reg_id && r.CreadorID == creator_id);
+            if(registro != null){
+                if(registro.pauseRegs) ViewBag.noRegs = true;
+                return View();
+            }else{
+                return View("PopUpErrorView");
+            }
         }
 
         [HttpPost]
@@ -72,6 +84,7 @@ namespace Registrar_dotnet.Controllers
                         db.UsuariosFinales.Add(usuario);
                         db.SaveChanges();
                         ViewBag.registrado = true;
+                        if(registro.pauseLogs) ViewBag.noLogin = true;
                         return View("LoginCliente");
                     }else{
                         ViewBag.notSamePass = true;
