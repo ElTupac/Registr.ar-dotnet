@@ -33,6 +33,20 @@ window.addEventListener('load', e => {
             link.parentElement.removeChild(link);
         });
     });
+    
+    document.getElementById("download-script-react").addEventListener('click', e => {
+        let URL = window.location.href.split(window.location.pathname)[0];
+        URL += "/libreriaRegistrar/registrarBeta-react.js";
+        fetch(URL).then(res => res.blob())
+        .then(res => {
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(new Blob([res]));
+            link.setAttribute("download", "registrarBeta-react.js");
+            document.body.appendChild(link);
+            link.click();
+            link.parentElement.removeChild(link);
+        });
+    });
 
     document.getElementById("download-styles").addEventListener('click', e => {
         let URL = URLhostname();
@@ -58,6 +72,10 @@ window.addEventListener('load', e => {
         e.target.select();
         document.execCommand("copy");
         spawnLilModal("Copiado!", e.clientX, e.clientY);
+    });
+
+    document.getElementById("btn-volver").addEventListener('click', e => {
+        window.location.href = URLhostname();
     });
 });
 
