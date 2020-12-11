@@ -20,7 +20,8 @@ window.addEventListener("message", evento => {
         .then(res => {
             res = JSON.parse(res);
             if(res.ok){
-                evento.source.postMessage(`{user: ${username}, token: ${res.token}}`, evento.origin);
+                //`{user: ${username}, token: ${res.token}}`
+                evento.source.postMessage(JSON.stringify({user: username, token: res.token}), evento.origin);
             }else{
                 document.getElementById("charging").style.display = "none";
                 login.style.display = "block";
