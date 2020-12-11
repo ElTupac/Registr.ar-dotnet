@@ -159,6 +159,11 @@ body {
   border-radius: 5px;
 }
 
+.btn-section div{
+  width: 50%;
+  margin: 20px;
+}
+
 .btn-section textarea{
   resize: none;
   overflow: hidden;
@@ -177,4 +182,13 @@ textarea:focus {
 .textarea {
   font-family: sans-serif;
   color: grey;
+}
+
+.lil-modal{
+  position: absolute;
+  background-color: #fff;
+  border: 1px black solid;
+}
+.lil-modal p{
+  margin: 2px 2px;
 }
