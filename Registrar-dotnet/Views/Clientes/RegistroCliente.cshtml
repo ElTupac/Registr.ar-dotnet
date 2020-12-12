@@ -12,40 +12,61 @@
     bool noRegs = (ViewBag.noRegs != null);
 }
 
-<div class="text-center">
-    <section class="login-sec">
-        <h1>Registrarse</h1>
-        @if(badReg){
+<div class="blur-box">
+      <div class="main-box">
+        <form class="form" action='@Url.Action("RegistroFinal", "Clientes")' id="registerForm" method="POST">
+          <span class="main__title">Register</span>
+          @if(badReg){
             <p style="margin: 0; color: red">Hubo un error con tu registro</p>
-        }
-        <form action='@Url.Action("RegistroFinal", "Clientes")' id="registerForm" method="POST">
-            <input type="text" name="username" placeholder="Usuario" required>
-            @if (notUser){
+          }
+          <input
+            type="text"
+            required
+            placeholder="User"
+            class="register__input-user register__input-first"
+            name="username"
+          />
+          @if (notUser){
                 <p style='color: red; margin: 0;'>Nombre de usuario no disponible</p>
-            }else{
-                <br>
             }
-            <input type="email" placeholder="Tu eMail" name="email" required>
-            @if(notMail){
+          <input
+            type="email"
+            required
+            placeholder="Email"
+            class="register__input-email"
+            name="email"
+          />
+          @if(notMail){
                 <p style='color: red; margin: 0;'>Mail no disponible</p>
-            }else{
-                <br>
             }
-            <input id="password" type="password" name="password" placeholder="Contraseña" required>
-            <br>
-            <input id="password2" type="password" name="password2" placeholder="Repite contraseña" required>
-            @if(notSamePass) { display = "block"; }
+          <input
+            type="password"
+            required
+            placeholder="Password"
+            class="register__input-password"
+            name="password"
+            id="password"
+          />
+          @if(notSamePass) { display = "block"; }
             else{ display = "none"; }
             <p style='display: @display; color: red; margin: 0;' id="alerta">No coinciden las contraseñas</p>
-            <br>
+          <input
+            type="password"
+            required
+            placeholder="Confirm Password"
+            class="register__input-password register__input-last"
+            name="password2"
+            id="password2"
+          />
+          <br>
             @if(noRegs) {
                 <p style='color: red; margin: 0;'>No se puede registrar en este momento. Intente mas tarde</p>
             }else{
-                <button type="submit" >Enviar</button>
+                <button class="register__btn" type="submit">Register</button>
             }
         </form>
-    </section>
+      </div>
 
-    <script src="~/js/formCheck.js"></script>
-    <script src="~/js/queryInfo.js"></script>
-</div>
+        <script src="~/js/formCheck.js"></script>
+        <script src="~/js/queryInfo.js"></script>
+    </div>

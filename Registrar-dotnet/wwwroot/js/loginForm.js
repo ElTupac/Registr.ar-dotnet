@@ -20,11 +20,11 @@ window.addEventListener("message", evento => {
         .then(res => {
             res = JSON.parse(res);
             if(res.ok){
-                //`{user: ${username}, token: ${res.token}}`
                 evento.source.postMessage(JSON.stringify({user: username, token: res.token}), evento.origin);
             }else{
                 document.getElementById("charging").style.display = "none";
-                login.style.display = "block";
+                password.value = '';
+                login.style.display = "flex";
                 document.getElementById("alerta").style.display = "block";
             }
         });

@@ -8,26 +8,37 @@
     bool noLogin = (ViewBag.noLogin != null);
 }
 
-<div class="text-center">
-    <section class="login-sec">
-        <h1>Login</h1>
-        @if(registrado){
-            <p style="margin: 0; color: #4BB543;"><strong>Listo!</strong> Ahora solo tenes que loguearte</p>
-        }
-        <form id="loginForm">
-            <input type="text" id="username" placeholder="Usuario/eMail" required>
-            <br>
-            <input type="password" id="password" placeholder="Contraseña" required>
+<div class="blur-box">
+    <div class="main-box">
+        <form class="form" id="loginForm">
+            <span class="main__title">Login</span>
+            @if(registrado){
+                <p style="margin: 0; color: #4BB543;"><strong>Listo!</strong> Ahora solo tenes que loguearte</p>
+            }
+            <input
+                type="text"
+                required
+                placeholder="User"
+                class="login__input-user"
+                id="username"
+            />
+            <input
+                type="password"
+                required
+                placeholder="Password"
+                class="login__input-password"
+                id="password"
+            />
             <p id="alerta" style="color: red; margin: 0; display: none;">Las credenciales ingresadas no son validas</p>
             <br>
             @if(noLogin){
                 <p style='color: red; margin: 0;'>No se puede acceder en este momento. Intente mas tarde</p>
             }else{
-                <button type="submit">Entrar</button>
+                <button type="submit" class="login__btn">Login</button>
             }
         </form>
         <img src="~/images/charging-circle.gif" id="charging" alt="charging">
-    </section>
+    </div>
 
     <script src="~/js/loginForm.js"></script>
 </div>

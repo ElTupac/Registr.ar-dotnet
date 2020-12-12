@@ -61,7 +61,7 @@ namespace Registrar_dotnet.Controllers
                         }
                     }
                 }else{
-                    return Json("NoUser");
+                    return Json("{\"ok\":false}");
                 }
             }else{
                 return Json("BadReg");
