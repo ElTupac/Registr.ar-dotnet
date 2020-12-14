@@ -57,7 +57,8 @@ namespace Registrar_dotnet.Controllers
                         using (var reader = new StreamReader(httpResponse.GetResponseStream())){
                             string response = reader.ReadToEnd();
                             reader.Close();
-                            return Json(response);
+                            
+                            return Json($@"{{""creds"": {response}, ""user"": ""{usuario.UserName}""}}");
                         }
                     }
                 }else{
