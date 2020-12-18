@@ -1,4 +1,4 @@
-﻿@{
+@{
     ViewData["Title"] = "Registr.ar";
 }
 
@@ -8,94 +8,132 @@
     bool badLogin = (ViewBag.badLogin != null);
 }
 
-<div class="text-center main-container">
-    <div class="to-login blur">
-        <p>Ya tenes una cuenta?</p>
-        <button class="login__btn" id="to-login">Login</button>
+@section Styles {
+  <link href='@Url.Content("~/css/home.css")' rel="stylesheet">
+}
+
+<header>
+    <p class="title">Registr.ar</p>
+</header>
+<main>
+  @if(badLogin){
+    <script defer>
+      /*Heigth to 125*/
+      var showLogin = true;
+    </script>
+  }
+  <div class="login" id="login-container">
+    <div class="login__title">
+      <p class="login__text">¿Ya tenes una cuenta?</p>
+      <button class="login__btn" id="to-login">Login</button>
     </div>
-    <div class="about-registrar">
-        <section class="about-sec blur">
-            <h2><strong>Que es Registr.ar?</strong></h2>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius justo at dui sodales, ut laoreet dolor fringilla. Proin est ante, ornare ac sollicitudin ut, tristique quis tellus. Aenean lobortis ullamcorper massa at congue. Maecenas tristique venenatis varius. Vivamus mauris lacus, auctor sit amet erat vitae, mattis scelerisque nunc. Ut ornare dui ac dui tincidunt ornare. Aliquam et dignissim risus. Vivamus felis quam, pretium vel mattis sed, ullamcorper in nibh. Donec a quam tristique, aliquet nunc in, ultricies turpis. Nam vulputate erat libero, varius pulvinar sem blandit vitae.
-            </p>
-        </section>
-        <div class="register-form blur">
-            <h2><strong>Registrarse</strong></h2>
-            <form action='@Url.Action("RegisterUser", "Home")' id="registerForm" method="POST">
-                <input type="text" name="username" placeholder="Nombre de usuario" required value='@((mailUsed && !usernameUsed) ? @ViewBag.username : "")'>
-                @if(usernameUsed){
-                    <p style="color: red; margin: 0;">Este nombre ya esta en uso</p>
-                }else{
-                    <br>
-                }
-                <input type="email" name="email" placeholder="Tu email" required value='@((usernameUsed && !mailUsed) ? @ViewBag.email : "")'>
-                @if(mailUsed){
-                    <p style="color: red; margin: 0;">Este email ya esta en uso</p>
-                }else{
-                    <br>
-                }
-                <input type="password" id="password" name="password" placeholder="Nueva contrasenia" required>
-                <br>
-                <input type="password" id="password2" placeholder="Repite la contrasenia" required>
-                <p id="alerta" style="display: none; color: red;">Las contrasenias no coinciden</p>
-                <button type="submit">Registrar</button>
-            </form>
-        </div>
+    <div class="login__form" id="form-container">
+      <form action='@Url.Action("LoginUser", "Home")' method="POST">
+        <input type="text" name="username" placeholder="Usuario/eMail" required class="register__input">
+        <input type="password" name="password" placeholder="Contraseña" required class="register__input">
+        <button type="submit" class="register__btn">Entrar</button>
+        @if(badLogin){
+          <p style="color: red; margin: 0">Las credenciales ingresadas no son validas</p>
+        }
+      </form>
     </div>
-    <div class="features blur">
-        <div class="feature-left">
-            <div class="feature">
-                <img src="~/images/Rocketship.svg" width="150px" alt="">
-            </div>
-            <div class="text-container-left">
-                <h4>Velocidad</h4>
-                <p>Maneja todos los <strong>usuarios</strong> de tu pagina de manera veloz y segura. Puedes monitorear sus acciones y el impacto que tienen en tu pagina.</p>
-            </div>
-        </div>
-        <div class="feature-right">
-            <div class="text-container-right">
-                <h4>Enfocate 100% a tus ideas</h4>
-                <p><strong>Registr.ar</strong> te permite tener todo <strong>controlado</strong>, <strong>monitoreado</strong> y <strong>seguro</strong>; sin perder tiempo y desarrollando todo el potencial de tu pagina.</p>
-            </div>
-            <div class="feature">
-                <img src="~/images/Bulb.svg" width="150px" alt="">
-            </div>
-        </div>
-        <div class="feature-left">
-            <div class="feature">
-                <img src="~/images/Magic-wand.svg" width="150px" alt="">
-            </div>
-            <div class="text-container-left">
-                <h4>Facil de implementar</h4>
-                <p>Implementacion facil, rapida y liviana. Creas tu registro, descargas su script y ya tienes <strong>funcional</strong> tu sistema con <strong>Login</strong> y <strong>Registro</strong> de usuarios!</p>
-            </div>
-        </div>
+  </div>
+  <div class="container">
+    <div class="about-1">
+      <h2 class="about-1__title">¿Qué es Registr.ar?</h2>
+      <p class="about-1__text">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
+        vitae sapien risus. Aliquam non tristique dolor. Ut nisi dolor,
+        sagittis ut lectus eget, mollis imperdiet est. Suspendisse porta
+        velit vitae pharetra fermentum. Donec turpis orci, bibendum vel erat
+        vel, gravida aliquet leo.
+      </p>
     </div>
-</div>
+    <div class="register">
+      <h2 class="register__title">Registrarse</h2>
+      <form class="register__form" action='@Url.Action("RegisterUser", "Home")' id="registerForm" method="POST">
+        <input
+          type="text"
+          class="register__input"
+          placeholder="Nombre de usuario"
+          name="username"
+          required value='@((mailUsed && !usernameUsed) ? @ViewBag.username : "")'
+        />
+        @if(usernameUsed){
+            <p style="color: red; margin: 0;">Este nombre ya esta en uso</p>
+        }
+        <input type="email" class="register__input" name="email" placeholder="Email" required value='@((usernameUsed && !mailUsed) ? @ViewBag.email : "")'/>
+        @if(mailUsed){
+            <p style="color: red; margin: 0;">Este email ya esta en uso</p>
+        }
+        <input
+          type="password"
+          class="register__input"
+          placeholder="Contraseña"
+          id="password" name="password"
+          required
+        />
+        <input
+          type="password"
+          class="register__input"
+          placeholder="Confirmar contraseña"
+          id="password2"
+          required
+        />
+        <p id="alerta" style="display: none; color: red;">Las contrasenias no coinciden</p>
+       <button class="register__btn" type="submit">Registrarse</button>
+      </form>
+    </div>
+  </div>
+  <div class="topics">
+    <div class="topics__one">
+      <div class="topics__circle">
+        <img src="~/images/Rocketship.svg" />
+      </div>
+      <div class="topics__text">
+        <h3 class="topics__title">VELOCIDAD</h3>
+        <p class="topics__subtext">
+          Maneja todos los <strong>usuarios</strong> de tu página de manera
+          veloz y segura.
+          <br />
+          Puedes monitorear sus acciones y el impacto que tienen en tu
+          página
+        </p>
+      </div>
+    </div>
+    <div class="topics__two">
+      <div class="topics__text second">
+        <h3 class="topics__title">ENFOCATE 100% A TUS IDEAS</h3>
+        <p class="topics__subtext">
+          <strong>Registr.ar</strong> te permite tener todo
+          <strong>controlado</strong>, <strong>monitoreado</strong> y
+          <strong>seguro</strong>
+          <br />
+          sin perder tiempo y desarrollando todo el potencial de tu página
+        </p>
+      </div>
+      <div class="topics__circle">
+        <img src="~/images/Bulb.svg" />
+      </div>
+    </div>
+    <div class="topics__three">
+      <div class="topics__circle">
+        <img src="~/images/Magic-wand.svg" />
+      </div>
+      <div class="topics__text">
+        <h3 class="topics__title">FÁCIL DE IMPLEMENTAR</h3>
+        <p class="topics__subtext">
+          Implementación fácil, rápida y liviana. Creas tu registro,
+          descargas tus scripts y ya tienes <strong>funcional</strong> tu
+          sistema con <strong>Login</strong> y <strong>Registro</strong> de
+          usuarios.
+        </p>
+      </div>
+    </div>
+  </div>
+</main>
 
-<script src="~/js/formCheck.js"></script>
 
-<!-- <button class="btn btn-outline-info my-2 my-sm-0">Log in</button> 
-<div class="text-center" style="display: none;">
-    <section class="login-sec">
-        <h1>Loguear</h1>
-        <form action='@Url.Action("LoginUser", "Home")' method="POST">
-            <input type="text" name="username" placeholder="Usuario/eMail" required>
-            <br>
-            <input type="password" name="password" placeholder="Contraseña" required>
-            @if(badLogin){
-                <p style="color: red; margin: 0">Las credenciales ingresadas no son validas</p>
-            }else{
-                <br>
-            }
-            <button type="submit">Entrar</button>
-        </form>
-    </section>
-    <section class="register-sec">
-        
-    </section>
-</div>
-
--->
-
+@section Scripts{
+  <script src="~/js/formCheck.js"></script>
+}

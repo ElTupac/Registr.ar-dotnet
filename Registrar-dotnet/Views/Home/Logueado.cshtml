@@ -12,6 +12,11 @@
     var adminDeleted = (ViewBag.adminDeleted != null) ? ViewBag.adminDeleted : null; 
 }
 
+@section Styles{
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+}
+
 <div class="text-center">
     <h1>Registros de @ViewBag.username</h1>
     @if(badAdminMail){

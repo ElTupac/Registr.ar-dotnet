@@ -6,6 +6,11 @@
     ViewData["Title"] = (registro != null) ? registro.Nombre : "Error";
 }
 
+@section Styles{
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+}
+
 <div class="text-center">
     <button id="btn-volver" style="margin-right: 95%;">Volver</button>
     <h1>Registro <strong>@registro.Nombre</strong></h1>
