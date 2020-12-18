@@ -6,6 +6,7 @@
     bool usernameUsed = (ViewBag.usernameUsed != null);
     bool mailUsed = (ViewBag.mailUsed != null);
     bool badLogin = (ViewBag.badLogin != null);
+    bool registrado = (ViewBag.registrado != null);
 }
 
 @section Styles {
@@ -16,10 +17,14 @@
     <p class="title">Registr.ar</p>
 </header>
 <main>
-  @if(badLogin){
+  @if(badLogin || registrado){
     <script defer>
       /*Heigth to 125*/
       var showLogin = true;
+    </script>
+  }else{
+    <script defer>
+      var showLogin = false;
     </script>
   }
   <div class="login" id="login-container">
@@ -33,8 +38,11 @@
         <input type="password" name="password" placeholder="Contraseña" required class="register__input">
         <button type="submit" class="register__btn">Entrar</button>
         @if(badLogin){
-          <p style="color: red; margin: 0">Las credenciales ingresadas no son validas</p>
+          <p style="color: black; margin: 0">Las credenciales ingresadas no son validas</p>
+        }else if(registrado){
+          <p style="color: #fff; margin: 0">Registrado!</p>
         }
+        <p style="font-size: 12px;"><a href="#">No recuerdo mis credenciales</a></p>
       </form>
     </div>
   </div>
@@ -42,11 +50,11 @@
     <div class="about-1">
       <h2 class="about-1__title">¿Qué es Registr.ar?</h2>
       <p class="about-1__text">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-        vitae sapien risus. Aliquam non tristique dolor. Ut nisi dolor,
-        sagittis ut lectus eget, mollis imperdiet est. Suspendisse porta
-        velit vitae pharetra fermentum. Donec turpis orci, bibendum vel erat
-        vel, gravida aliquet leo.
+        Registr.ar es el sistema perfecto para complementar tus paginas o desarrollos.
+        No te preocupes mas por muchisimas horas gastadas en bases de datos o herramientas complejas.
+        Registrate, crea tu registro, insertalo en tu pagina y ya tendras funcionando nuestro sistema.
+        Vas a poder administrar a tus clientes, monitorear sus acciones, agregarle roles segun las acciones que puedan realizar
+         y mas!
       </p>
     </div>
     <div class="register">

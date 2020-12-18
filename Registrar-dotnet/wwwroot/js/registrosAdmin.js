@@ -43,14 +43,14 @@ window.addEventListener('load', e => {
         if(checked.length == 1) {
             pausarLogs.innerText = 'Pausar/despausar logueo';
             pausarRegs.innerText = 'Pausar/despausar registro';
-            pausarLogs.style.display = "block";
-            pausarRegs.style.display = "block";
+            pausarLogs.style.display = "inline-flex";
+            pausarRegs.style.display = "inline-flex";
             pausarTodo.style.display = "none";
         }else if(checked.length > 1){
             pausarLogs.innerText = 'Pausar logueos';
             pausarRegs.innerText = 'Pausar registros';
             pausarTodo.innerText = 'Pausar todo';
-            pausarTodo.style.display = "block";
+            pausarTodo.style.display = "inline-flex";
         }
     }
     
@@ -64,14 +64,14 @@ window.addEventListener('load', e => {
         }else if(checked.length == 1){
             pausarLogs.innerText = 'Pausar/despausar logueo';
             pausarRegs.innerText = 'Pausar/despausar registro';
-            pausarLogs.style.display = "block";
-            pausarRegs.style.display = "block";
+            pausarLogs.style.display = "inline-flex";
+            pausarRegs.style.display = "inline-flex";
             pausarTodo.style.display = "none";
         }else{
             pausarLogs.innerText = 'Pausar logueos';
             pausarRegs.innerText = 'Pausar registros';
             pausarTodo.innerText = 'Pausar todo';
-            pausarTodo.style.display = "block";
+            pausarTodo.style.display = "inline-flex";
         }
     }
 });

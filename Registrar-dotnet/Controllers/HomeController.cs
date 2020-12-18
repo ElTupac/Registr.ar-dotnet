@@ -68,7 +68,8 @@ namespace Registrar_dotnet.Controllers
                 db.Users.Add(nuevoUser);
                 db.SaveChanges();
 
-                return View("CheckMail");
+                ViewBag.registrado = true;
+                return View("Index");
             }
             else if(userCheck.UserName == username)
             {

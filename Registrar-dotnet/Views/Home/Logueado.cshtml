@@ -13,199 +13,253 @@
 }
 
 @section Styles{
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/logged.css" />
 }
 
-<div class="text-center">
-    <h1>Registros de @ViewBag.username</h1>
+
+<header>
+  <div class="header__elements">
+    <p class="title">Bienvenido @ViewBag.username</p>
+    <form action='@Url.Action("SacarUsuario", "Home")'>
+        <button type="submit" class="btn__exit">Salir</button>
+    </form>
+  </div>
+</header>
     @if(badAdminMail){
-        <p style="color: red; margin: 0;">No se encontro un usuario con ese mail. <strong>Checkea que este bien escrito.</strong></p>
+        <p style="color: red;" class="alert">No se encontro un usuario con ese mail. <strong>Checkea que este bien escrito.</strong></p>
     }else if(badReg){
-        <p style="color: red; margin: 0;">Hubo un error con el registro. <strong>Intentalo nuevamente</strong></p>
+        <p style="color: red;" class="alert">Hubo un error con el registro. <strong>Intentalo nuevamente</strong></p>
     }else if(autoAdmin){
-        <p style="color: red; margin: 0;"><strong>No</strong> podes asignarte como <strong>Administrador</strong> a tus propios registros</p>
+        <p style="color: red;" class="alert"><strong>No</strong> podes asignarte como <strong>Administrador</strong> a tus propios registros</p>
     }else if(adminSolicitado != null){
         if(adminSolicitado){
-            <p style="color: #4BB543; margin: 0;">Solicitud enviada a <strong>@ViewBag.newAdmin</strong></p>
+            <p style="color: #4BB543;" class="alert">Solicitud enviada a <strong>@ViewBag.newAdmin</strong></p>
         }else{
-            <p style="color: #4BB543; margin: 0;">Ya se envio anteriormente la solicitud a <strong>@ViewBag.newAdmin</strong></p>
+            <p style="color: #4BB543;" class="alert">Ya se envio anteriormente la solicitud a <strong>@ViewBag.newAdmin</strong></p>
         }
     }else if(cancelSolicitud != null){
         if(cancelSolicitud){
-            <p style="color: #4BB543; margin: 0;"><strong>Solicitud cancelada</strong></p>
+            <p style="color: #4BB543;" class="alert"><strong>Solicitud cancelada</strong></p>
         }else{
-            <p style="color: red; margin: 0;">No se pudo cancelar la solicitud. <strong>Intente nuevamente</strong></p>
+            <p style="color: red;" class="alert">No se pudo cancelar la solicitud. <strong>Intente nuevamente</strong></p>
         }
     }else if(aceptarSoli != null){
         if(aceptarSoli){
-            <p style="color: #4BB543; margin: 0;"><strong>Solicitud aceptada</strong></p>
+            <p style="color: #4BB543;" class="alert"><strong>Solicitud aceptada</strong></p>
         }else{
-            <p style="color: red; margin: 0;">Algo salio mal. <strong>Intentelo nuevamente</strong></p>
+            <p style="color: red;" class="alert">Algo salio mal. <strong>Intentelo nuevamente</strong></p>
         }
     }else if(adminDeleted != null){
         if(adminDeleted){
-            <p style="color: #4BB543; margin: 0;">Administrador Removido</p>
+            <p style="color: #4BB543;" class="alert">Administrador Removido</p>
         }else{
-            <p style="color: #4BB543; margin: 0;">Hubo un error eliminando el administrador. <strong>Intentelo nuevamente.</strong></p>
+            <p style="color: #4BB543;" class="alert">Hubo un error eliminando el administrador. <strong>Intentelo nuevamente.</strong></p>
         }
     }
-    @if(ViewBag.Creador.Count > 0)
-    {
+<main>
+  <section class="first__section">
+    <div class="first__section--text">
+      <p>
+        Aqui puedes administrar tus registros. @if(ViewBag.Creador.Count == 0 && ViewBag.Creador.Count == 0){<strong>Empieza creando algun registro! </strong>}
+        Puedes agregar como administradores a otras personas mediante su mail, o tambien los puedes eliminar. 
+        En todos tus registros pueden ser pausados los logueos y/o los registros por tus admins, pero solo tu puedes 
+        eliminarlos. Divertite! 
+      </p>
+    </div>
+    <div class="first__section--new__register">
+      <div class="new__register--container">
+        <p class="new__register-title">Crear nuevo registro</p>
+        <form class="new__register-form" action='@Url.Action("CrearRegistro", "Home")' method="POST">
+          <input type="text" required name="nombre" class="new__register--input"/>
+          <button type="submit" class="new__register--btn">Crear</button>
+        </form>
+      </div>
+    </div>
+  </section>
+  <section class="second__section">
+    <div class="registers">
+      <div class="registers__title">
+        <p>Estos son tus registros</p>
+      </div>
+      <div class="registers__table">
         <table>
+          <thead>
             <tr>
-                <th></th>
-                <th><strong>ID</strong></th>
-                <th><strong>Nombre</strong></th>
-                <th><strong>Pago</strong></th>
-                <th><strong>Loguear</strong></th>
-                <th><strong>Registrar</strong></th>
-                <th><strong>Administradores</strong></th>
-                <th><strong>Agregar admin</strong></th>
-                <th><strong>Configurar</strong></th>
+              <th></th>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Logueos</th>
+              <th>Registros</th>
+              <th>Administradores</th>
+              <th>Agregar admin</th>
+              <th>Configuración</th>
             </tr>
-                @foreach (var item in ViewBag.Creador)
-                {
+          </thead>
+        @if(ViewBag.Creador.Count > 0){
+            <tbody>
+                @foreach(var item in ViewBag.Creador){
                     <tr>
-                        <td><input type="checkbox" id='@item.ID-check' class="registrospropios"></td>
-                        <td class="registro-id">@item.ID</td>
-                        <td class="registro-nombre">@item.Nombre</td>
-                        @{var premium = item.Premium ? "✅" : "❌";}
-                        <td class="registro-pago">@premium</td>
-                        @{var pauseLogs = !item.pauseLogs ? "✅" : "❌";}
-                        <td id='@item.ID-logcheck'>@pauseLogs</td>
-                        @{var pauseRegs = !item.pauseRegs ? "✅" : "❌";}
-                        <td id='@item.ID-regcheck'>@pauseRegs</td>
                         <td>
-                            <select name="administradores" id='@item.ID-select'>
-                                @if(item.Admins == null || item.Admins.Count == 0){
-                                    <option value=0 selected>No Admins</option>
-                                }else{
-                                    <option value=0 selected></option>
-                                    @if (item.Admins != null)
-                                    {
-                                        foreach (var admin in item.Admins)
+                            <input type="checkbox" class="table__checkbox registrospropios" id='@item.ID-check'/>
+                        </td>
+                        <td>
+                            @item.ID
+                        </td>
+                        <td>
+                            @item.Nombre
+                        </td>
+                        @{var pauseLogs = !item.pauseLogs ? "✓" : "X";}
+                        <td class="table__icons">
+                            @pauseLogs
+                        </td>
+                        @{var pauseRegs = !item.pauseRegs ? "✓" : "X";}
+                        <td class="table__icons">
+                            @pauseRegs
+                        </td>
+                        <td>
+                            <div class="admin">
+                                <select name="administradores" id='@item.ID-select' class="admin__select">
+                                    @if(item.Admins == null || item.Admins.Count == 0){
+                                        <option value=0 selected>No Admins</option>
+                                    }else{
+                                        <option value=0 selected></option>
+                                        @if (item.Admins != null)
                                         {
-                                            <option value='@admin.ID'>@admin.ID - @admin.Username</option>
+                                            foreach (var admin in item.Admins)
+                                            {
+                                                <option value='@admin.ID'>@admin.ID - @admin.Username</option>
+                                            }
                                         }
                                     }
-                                }
-                            </select>
-                            <button type="button" onclick='EliminarAdministrador(@item.ID)' class="btn-eliminar">Eliminar</button>
+                                </select>
+                                <button class="admin__btn" onclick='EliminarAdministrador(@item.ID)'>Eliminar</button>
+                            </div>
                         </td>
                         <td>
                             <form action='/Home/AgregarAdministrador' method="GET">
-                                <input type="email" name="admin_mail">
-                                <input type="hidden" value='@item.ID' name="reg_id">
-                                <button type="submit">+</button>
+                                <input type="email" name="admin_mail" required>
+                                <input type="hidden" value='@item.ID' name="reg_id" required>
+                                <button type="submit" class="admin__btn">+</button>
                             </form>
                         </td>
-                        <td>
-                            <button onclick='entrarConfig(@item.ID)'>
-                                <img src="~/images/settings.png" alt="configuracion" style="height: 23px;">
+                        <td class="table__config">
+                            <button class="btn__config" onclick='entrarConfig(@item.ID)'>
+                                <img src="~/images/settings-cog.svg" />
                             </button>
                         </td>
                     </tr>
-                }  
+                }
+            </tbody>
+        }else{
+            <h3><strong>Todavia no tenes creado registros</strong><br>Empieza creando uno</h3>
+        }
         </table>
-    }
-    else {<h2><strong>Todavia no tenes creado registros</strong><br>Empieza creando uno</h2>}
-
-    <br>
-    <button id="btn-eliminar" class="btn-eliminar" style="display: none;">Eliminar</button>
-    <button id="pausar-logs" style="display: none;"></button>
-    <button id="pausar-regs" style="display: none;"></button>
-    <button id="pausar-todo" style="display: none;"></button>
-    <br>
-    
-    <h1>Registros que administras</h1>
-
-    @if(ViewBag.Admin.Count > 0){
-        <table>
-            <tr>
-                <th></th>
-                <th><strong>ID</strong></th>
-                <th><strong>Nombre</strong></th>      
-                <th><strong>Loguear</strong></th>
-                <th><strong>Registrar</strong></th>
-            </tr>
-            @foreach(var reg in ViewBag.Admin)
-            {
+      </div>
+      <button id="btn-eliminar" style="display: none;">Eliminar</button>
+      <button id="pausar-logs" style="display: none;"></button>
+      <button id="pausar-regs" style="display: none;"></button>
+      <button id="pausar-todo" style="display: none;"></button>
+    </div>
+  </section>
+  <section class="third__section">
+    <div class="register">
+      <div class="register__container">
+        <p class="register__title">Registros que administras</p>
+        <div class="register__table">
+          @if(ViewBag.Admin.Count > 0){
+            <table>
+              <thead>
                 <tr>
-                    <td><input type="checkbox" id='@reg.ID-check' class="registrosadmin"></td>
-                    <td>@reg.ID</td>
-                    <td>@reg.Nombre</td>
-                    @{var pauseLogs = !reg.pauseLogs ? "✅" : "❌";}
-                    <td>@pauseLogs</td>
-                    @{var pauseRegs = !reg.pauseRegs ? "✅" : "❌";}
-                    <td>@pauseRegs</td>
+                  <th></th>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th>Logueos</th>
+                  <th>Registros</th>
                 </tr>
-            }
-        </table>
-    }else {<h3><strong>Todavia no administras registros de otros</strong><br>Divertite con los tuyos</h3>}
-
-    <br>
-    <button id="pausar-logs-admin" style="display: none;"></button>
-    <button id="pausar-regs-admin" style="display: none;"></button>
-    <button id="pausar-todo-admin" style="display: none;"></button>
-    <br>
-
-    @if(ViewBag.Solicitudes.Count > 0){
+              </thead>
+                  <tbody>
+                  @foreach(var reg in ViewBag.Admin){
+                    <tr>
+                      <td>
+                        <input type="checkbox" id='@reg.ID-check' class="table__chackbox registrosadmin" />
+                      </td>
+                      <td>
+                        <p>@reg.ID</p>
+                      </td>
+                      <td>
+                        <p>@reg.Nombre</p>
+                      </td>
+                      @{var pauseLogs = !reg.pauseLogs ? "✓" : "X";}
+                      <td class="table__icons">
+                        <p>@pauseLogs</p>
+                      </td>
+                      @{var pauseRegs = !reg.pauseRegs ? "✓" : "X";}
+                      <td class="table__icons">
+                        <p>@pauseRegs</p>
+                      </td>
+                    </tr> 
+                  }
+                  </tbody>
+            </table>
+          }else{
+            <br>
+            <h3><strong>Todavia no administras registros de otros</strong><br>Divertite con los tuyos</h3>
+          }
+        </div>
+        <button id="pausar-logs-admin" style="display: none;"></button>
+        <button id="pausar-regs-admin" style="display: none;"></button>
+        <button id="pausar-todo-admin" style="display: none;"></button>
+      </div>
+    </div>
+    <div class="pendings">
+      <p class="pendings__title">Solicitudes pendientes</p>
+      @if(ViewBag.Solicitudes.Count > 0){
         <table>
-            <tr>
-                <th><strong>ID</strong></th>
-                <th><strong>De</strong></th>
-                <th><strong>Para</strong></th>
-                <th><strong>Razon</strong></th>
-                <th><strong>Acciones</strong></th>
+          <thead>
+            <tr>  
+              <th>ID</th>
+              <th>De</th>
+              <th>Para</th>
+              <th>Razon</th>
+              <th>Acciones</th>
             </tr>
-            @foreach (Solicitud solicitud in ViewBag.Solicitudes)
-            {
-                <tr>
-                    <td>@solicitud.ID</td>
-                    <td>@solicitud.FromName</td>
-                    <td>@solicitud.ToName</td>
-                    @switch (solicitud.Action)
-                    {
-                        case "AddAdmin":
-                        <td>Agregar administrador</td>
-                        break;
-                    }
-                    @if(ViewBag.username == solicitud.FromName){
-                        <td>
-                            <button id='@solicitud.ID-cancelar' class="cancelar-soli">Cancelar solicitud</button>
-                        </td>
-                    }else{
-                        <td>
-                            <button id='@solicitud.ID-aceptar' class="aceptar-soli">Aceptar</button>
-                            <button id='@solicitud.ID-rechazar' class="rechazar-soli">Rechazar</button>
-                        </td>
-                    }
-                </tr>
+          </thead>
+          <tbody>
+            @foreach(Solicitud solicitud in ViewBag.Solicitudes){
+              <tr>
+                <td>@solicitud.ID</td>
+                <td>@solicitud.FromName</td>
+                <td>@solicitud.ToName</td>
+                @switch (solicitud.Action)
+                {
+                  case "AddAdmin":
+                    <td>Agregar admin</td>
+                    break;
+                }
+                @if(ViewBag.username == solicitud.FromName){
+                  <td>
+                    <button id='@solicitud.ID-cancelar' class="cancelar-soli admin__btn">Cancelar</button>
+                  </td>
+                }else{
+                  <td>
+                    <button id='@solicitud.ID-aceptar' class="aceptar-soli admin__btn">Aceptar</button>
+                    <button id='@solicitud.ID-rechazar' class="rechazar-soli admin__btn">Rechazar</button>
+                  </td>
+                }
+              </tr>
             }
+          </tbody>
         </table>
-    }
+      }else{
+        <h3 style="text-align: center;">No tenes solicitudes pendientes!</h3>
+      }
+    </div>
+  </section>
+</main>
 
-
-    <br>
-
-    <h3>Nuevo registro</h3>
-    <form action='@Url.Action("CrearRegistro", "Home")' method="POST">
-        <label for="nombre">Nombre del registro</label>
-        <input type="text" name="nombre" placeholder="Nombre">
-        <button type="submit">Crear</button>
-    </form>
-
-    <br>
-    <br>
-
-    <form action='@Url.Action("SacarUsuario", "Home")'>
-        <button type="submit">Salir</button>
-    </form>
-
-
+@section Scripts {
     <script src="~/js/registrosPropios.js"></script>
     <script src="~/js/registrosAdmin.js"></script>
     <script src="~/js/btnConfig.js"></script>
     <script src="~/js/solicitudes.js"></script>
-</div>
+}

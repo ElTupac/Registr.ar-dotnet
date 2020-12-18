@@ -15,9 +15,15 @@ document.getElementById("to-login").addEventListener('click', e => {
     if(!open){
         open = true;
         const loginContainer = document.getElementById("login-container");
-        makeTaller(loginContainer, 100);
+        makeTaller(loginContainer, 120);
     }
 });
+
+if(showLogin && !open){
+    open = true;
+    const loginContainer = document.getElementById("login-container");
+    makeTaller(loginContainer, 135);
+}
 
 function makeTaller(element, until){
     let stopId;
