@@ -37,6 +37,9 @@ namespace Registrar_dotnet.Controllers
                             });
                         }
                     }
+                    
+                    List<UsuarioFinal> clientes = db.UsuariosFinales.Where(u => u.RegistroID == registro.ID).ToList();
+                    ViewBag.clientes = clientes;
                     ViewBag.registro = registro;
                     return View("RegistroConfig");
                 }else{

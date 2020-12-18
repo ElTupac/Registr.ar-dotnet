@@ -1,0 +1,256 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    background: url("../images/bg2.jpg") no-repeat fixed top;
+    background-size: cover;
+    font-family: sans-serif;
+  }
+  header {
+    width: 100%;
+    height: 50px;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    padding-top: 15px;
+    padding-left: 50px;
+  }
+  .btn__back {
+    width: 80px;
+    height: 20px;
+    border: none;
+    background: #ef476f;
+    border-radius: 20px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  .btn__back svg {
+    width: 20px;
+    height: 20px;
+  }
+  .principal__title {
+    width: 451px;
+    height: 60px;
+    background: rgba(48, 63, 159, 0.85);
+    box-shadow: 0px 5px 5px rgba(255, 255, 255, 0.25);
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 22px;
+  }
+  .title__section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 75px;
+  }
+  .second__section {
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    height: fit-content;
+    justify-content: center;
+    margin-top: 75px;
+    background: rgba(255, 209, 102, 0.85);
+    box-shadow: 0px 4px 4px rgba(255, 255, 255, 0.25);
+    border-radius: 10px;
+  }
+  .registers {
+    width: 100%;
+    padding: 1em;
+  }
+  .registers__title p {
+    font-size: 25px;
+    font-weight: bold;
+  }
+  .registers__title {
+    margin-bottom: 1em;
+  }
+  .registers__table {
+    display: flex;
+    justify-content: center;
+  }
+  table {
+    border-spacing: 20px 15px;
+  }
+  table th {
+    font-weight: 600;
+    font-size: 18px;
+  }
+  .table__icons {
+    text-align: center;
+    font-weight: 600;
+  }
+  select.admin__select {
+    width: 150px;
+  }
+  .admin__btn {
+    width: 70px;
+    height: 20px;
+    background: #d13733;
+    border-radius: 20px;
+    border: none;
+    color: white;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  .admin__btn:nth-child(2) {
+    background-color: #9f1410;
+  }
+  .table__config {
+    text-align: center;
+  }
+  button.btn__config {
+    width: 20px;
+    height: 20px;
+    border: none;
+    background: transparent;
+  }
+  input.table__checkbox {
+    width: 15px;
+    height: 15px;
+  }
+  .scripts__section {
+    width: 65%;
+    height: 260px;
+    background: rgba(6, 214, 160, 0.85);
+    box-shadow: 0px 4px 4px rgba(255, 255, 255, 0.25);
+    border-radius: 10px;
+    margin: 60px auto;
+    padding: 1em;
+  }
+  .scripts__title {
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 26px;
+    text-align: center;
+  }
+  .scripts__container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 40px;
+    width: 70%;
+  }
+  .script,
+  .styles {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    font-size: 22px;
+  }
+  .script__btn {
+    width: 101px;
+    height: 26px;
+    background: #226f54;
+    border-radius: 20px;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+  .script__btn:nth-child(2) {
+    width: 150px;
+  }
+  .script__btn-3 {
+    width: 120px;
+    height: 26px;
+    background: #226f54;
+    border-radius: 20px;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+  .script__btns {
+    margin-top: 15px;
+  }
+  .scritps__section--container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+  }
+  textarea {
+    resize: none;
+    width: 80%;
+    height: 70px;
+    cursor: pointer;
+  }
+  .btns__section {
+    width: 65%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+  }
+  .btns__section--container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  .btns__section--register,
+  .btns__section--login {
+    width: 500px;
+    height: 200px;
+    text-align: center;
+    background: rgba(239, 71, 111, 0.85);
+    box-shadow: 0px 5px 10px rgba(255, 255, 255, 0.25);
+    border-radius: 10px;
+    padding: 1em;
+  }
+  .login__container,
+  .register__containter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+  }
+  .btns__section--title {
+    font-size: 24px;
+  }
+  .btns__section--text {
+    margin-bottom: 20px;
+  }
+  .btns__section--description {
+    font-size: 15px;
+  }
+  .table__section--container {
+    background: rgba(255, 209, 102, 0.85);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1em;
+  }
+  .table__section {
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    margin: 60px auto;
+  }
+  .table__section--table {
+    overflow-y: scroll;
+    width: 650px;
+    max-height: 200px;
+  }
+  .table__btns {
+    display: flex;
+  }
+  .table__actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .table__name {
+    text-align: center;
+  }
+  

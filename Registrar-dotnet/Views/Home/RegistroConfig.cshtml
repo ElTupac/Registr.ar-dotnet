@@ -1,5 +1,6 @@
 @{
     var registro = (ViewBag.registro != null) ? ViewBag.registro : null;
+    var clientes = (ViewBag.clientes != null) ? ViewBag.clientes : null;
 }
 
 @{
@@ -7,32 +8,65 @@
 }
 
 @section Styles{
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/registro-config.css" />
 }
 
-<div class="text-center">
-    <button id="btn-volver" style="margin-right: 95%;">Volver</button>
-    <h1>Registro <strong>@registro.Nombre</strong></h1>
-
-    <table>
-        <tr>
-            <th><strong>ID</strong></th>
-            <th><strong>Premium</strong></th>
-            <th><strong>Loguear</strong></th>
-            <th><strong>Registrar</strong></th>
-            <th><strong>Administradores</strong></th>
-        </tr>
-        <tr>
-            <td>@registro.ID</td>
-            @{var premium = registro.Premium ? "✅" : "❌";}
-            <td>@premium</td>
-            @{var pauseLogs = !registro.pauseLogs ? "✅" : "❌";}
-            <td>@pauseLogs</td>
-            @{var pauseRegs = !registro.pauseRegs ? "✅" : "❌";}
-            <td>@pauseRegs</td>
-            <td>
-                <select name="administradores" id='@registro.ID-select'>
+<header>
+  <button id="btn-volver" class="btn__back">
+    <svg
+      className="w-6 h-6"
+      fill="currentColor"
+      viewBox="0 0 20 20"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fillRule="evenodd"
+        d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+        clipRule="evenodd"
+      />
+    </svg>
+    Volver
+  </button>
+</header>
+<main>
+  <section class="title__section">
+    <div class="principal__title">
+      <h1>Registro <strong>@registro.Nombre</strong></h1>
+    </div>
+  </section>
+  <section class="second__section">
+    <div class="registers">
+      <div class="registers__table">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Premium</th>
+              <th>Loguear</th>
+              <th>Registrar</th>
+              <th>Administradores</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <p>@registro.ID</p>
+              </td>
+              <td class="table__icons">
+                @{var premium = registro.Premium ? "✓" : "X";}
+                <p>@premium</p>
+              </td>
+              <td class="table__icons">
+                @{var pauseLogs = !registro.pauseLogs ? "✓" : "X";}
+                <p>@pauseLogs</p>
+              </td>
+              <td class="table__icons">
+                @{var pauseRegs = !registro.pauseRegs ? "✓" : "X";}    
+                <p>@pauseRegs</p>
+              </td>
+              <td>
+                <div class="admin">
+                  <select class="admin__select" name="administradores" id='@registro.ID-select'>
                     @if(registro.Admins == null || registro.Admins.Count == 0){
                         <option value=0 selected>No Admins</option>
                     }else{
@@ -45,54 +79,135 @@
                             }
                         }
                     }
-                </select>
-                <button type="button" onclick='EliminarAdministrador(@registro.ID)' class="btn-eliminar">Eliminar</button>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="5">
-                <button onclick="PausarLog(@registro.ID)" id="pausar-logueos">Pausar Logueos</button>
-                <button onclick="PausarReg(@registro.ID)" id="pausar-registros">Pausar Registros</button>
-                <button >Upgrade</button>
-            </td>
-        </tr>
-    </table>
-
-    @{
-        var logs = registro.pauseLogs ? true : false;
-        var regs = registro.pauseRegs ? true : false;
-    }
-    <input type="hidden" value='["@logs", "@regs"]' id="pauses-info">
-
-    <section class="btn-section" style="display: flex; flex-direction: column;">
-        <h3 style="width: 85%; margin-left: 7.5%;">Inserta el script a lo largo de tu proyecto para poder utilizar nuestros registros</h3>
-        <div style="display: flex; flex-direction: row; width: 100%">
-            <div>
-                <h2>Descargar script</h2>
-                <button id="download-script">registroBeta.js</button>
-                <button id="download-script-react">registroBeta-react.js</button>
-            </div>
-            <div>
-                <h2>Descarga estilos</h2>
-                <button id="download-styles">registroBeta.css</button>
-            </div>
+                  </select>
+                  <button class="admin__btn" onclick='EliminarAdministrador(@registro.ID)'>Eliminar</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <button onclick="PausarLog(@registro.ID)" style="width: 110px;" id="pausar-logueos" class="admin__btn">Pausar Logueos</button>
+                    <button onclick="PausarReg(@registro.ID)" style="width: 110px;" id="pausar-registros" class="admin__btn">Pausar Registros</button>
+                    <!--<button >Upgrade</button>-->
+                </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  @{
+    var logs = registro.pauseLogs ? true : false;
+    var regs = registro.pauseRegs ? true : false;
+  }
+  <input type="hidden" value='["@logs", "@regs"]' id="pauses-info">
+  <section class="scripts__section">
+    <div class="scritps__section--container">
+      <p class="scripts__title">
+        Inserta el script a lo largo de tu proyecto para poder<br />utilizar
+        nuestros registros
+      </p>
+      <div class="scripts__container">
+        <div class="script">
+          <p>Descargar script</p>
+          <div class="script__btns">
+            <button class="script__btn" id="download-script">registroBeta.js</button>
+            <button class="script__btn" id="download-script-react">registroBeta-react.js</button>
+          </div>
         </div>
-    </section>
-
-    <section class="btn-section">
-        <h2>Boton <strong>Login</strong></h2>
-        <p>(Copia y pega este boton en tu pagina para utilizarlo)</p>
-        <textarea readonly id="btn-login">
+        <div class="styles">
+          <p>Descargar estilos</p>
+          <div class="script__btns">
+            <button class="script__btn-3" id="download-styles">registroBeta.css</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="btns__section">
+    <div class="btns__section--container">
+      <div class="btns__section--login">
+        <div class="login__container">
+          <div class="btns__section--text">
+            <p class="btns__section--title">Botón <strong>Login</strong></p>
+            <p class="btns__section--description">
+              (Copia y pega este botón en tu página para utilizarlo)
+            </p>
+          </div>
+          <textarea readonly id="btn-login">
 <button onclick="LoginCliente(@registro.ID, @registro.CreadorID)" class="login">Loguear</button></textarea>
-    </section>
-
-    <section class="btn-section">
-        <h2>Boton <strong>Registrar</strong></h2>
-        <p>(Copia y pega este boton en tu pagina para utilizarlo)</p>
-        <textarea readonly id="btn-register">
+        </div>
+      </div>
+      <div class="btns__section--register">
+        <div class="register__containter">
+          <div class="btns__section--text">
+            <p class="btns__section--title">
+              Botón <strong>Registro</strong>
+            </p>
+            <p class="btns__section--description">
+              (Copia y pega este botón en tu página para utilizarlo)
+            </p>
+          </div>
+          <textarea readonly id="btn-register">
 <button onclick="RegistroCliente(@registro.ID, @registro.CreadorID)" class="register">Registrarse</button></textarea>
-    </section>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="table__section">
+    <div class="table__section--container">
+      <div class="table__section--table">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Email</th>
+              @{var propName = (registro.FreeCheckName != null) ? registro.FreeCheckName : "PropName";}
+              <th>@propName</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+              @if(clientes != null){
+                  @foreach(var cliente in clientes){
+                      <tr>
+                          <td>
+                            <p>@cliente.ID</p>
+                          </td>
+                          <td class="table__name">
+                              <p>@cliente.UserName</p>
+                          </td>
+                          <td>
+                              <p>@cliente.Mail</p>
+                          </td>
+                          @{var check = cliente.FreeCheck ? "✓" : "X";}
+                          <td class="table__icons">
+                              @check
+                          </td>
+                          <td class="table__actions">
+                              <div class="table__btns">
+                                  <button class="admin__btn">Eliminar</button>
+                                  <button class="admin__btn">Bloquear</button>
+                              </div>
+                          </td>
+                      </tr>
+                  }
+              }else{
+                  <tr>
+                      <td colspan="5">
+                          <h2>No tienes usuarios registrados todavia!</h2>
+                      </td>
+                  </tr>
+              }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
 
+@section Scripts{
     <script src="~/js/btnConfig.js"></script>
     <script src="~/js/configView.js"></script>
-</div>
+}
