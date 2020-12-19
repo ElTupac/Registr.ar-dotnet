@@ -10,4 +10,6 @@ RUN dotnet publish --output /app/ --configuration Release
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
 WORKDIR /app
 COPY --from=builder /app .
+CMD ["dotnet", "ef", "migrations", "add", "db"]
+CMD ["dotnet", "ef", "database", "update"]
 CMD ["dotnet", "Registrar-dotnet.dll"]
