@@ -28,7 +28,17 @@ namespace Registrar_dotnet
             services.AddControllersWithViews();
 
             services.AddDbContext<UserContext>(options =>
-            options.UseNpgsql(Configuration.GetConnectionString("UserContext")));
+            {
+                var uriConnection = (Environment.GetEnvironmentVariable("DATABASE_URL")).Split("://")[1];
+                string userAndPass = uriConnection.Split("@")[0];
+                string dbInfo = uriConnection.Split("@")[1];
+                string connectionString = "SSL Mode=Require; Trust Server Certificate=true;";
+                connectionString = "User ID=" + userAndPass.Split(":")[0] + ";Password=" + userAndPass.Split(":")[1]
+                + ";Server=" + (dbInfo.Split("/")[0]).Split(":")[0] + ";Database=" + dbInfo.Split("/")[1] + ";" + connectionString;
+                //Only HardCode the credentials when need to make a migration an you have to connect from local pc
+                options.UseNpgsql(connectionString);
+            });
+            
             services.AddDistributedMemoryCache();
             services.AddSession(options => {
                 options.IdleTimeout = TimeSpan.FromMinutes(10);

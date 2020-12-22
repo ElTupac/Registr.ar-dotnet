@@ -1,5 +1,5 @@
 export function RegistroCliente(reg_id, creator_id){
-    const URL = `https://localhost:5001/Clientes/RegistroCliente?reg_id=${reg_id}&creator_id=${creator_id}`;
+    const URL = `https://registrar-tupac.herokuapp.com/Clientes/RegistroCliente?reg_id=${reg_id}&creator_id=${creator_id}`;
     let childRef = window.open(URL, 'Registro - Registrar', 'width=360,height=640,scrollbars=NO,resizable=NO');
     let parent  = window.location.href;
     const interval = setInterval(() => {
@@ -14,7 +14,7 @@ export function RegistroCliente(reg_id, creator_id){
 }
 
 export function LoginCliente(reg_id, creator_id){
-    const URL = `https://localhost:5001/Clientes/LoginCliente?reg_id=${reg_id}&creator_id=${creator_id}`;
+    const URL = `https://registrar-tupac.herokuapp.com/Clientes/LoginCliente?reg_id=${reg_id}&creator_id=${creator_id}`;
     let childRef = window.open(URL, 'Login - Registrar', 'width=360,height=640,scrollbars=NO,resizable=NO');
     let parent = window.location.href;
     const interval = setInterval(() => {
