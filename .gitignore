@@ -357,3 +357,4 @@ MigrationBackup/
 .ionide/
 Registrar-dotnet/.dockerignore
 Registrar-dotnet/DockerFile
+Registrar-dotnet/appsettings.json

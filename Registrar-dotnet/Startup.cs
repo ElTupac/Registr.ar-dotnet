@@ -28,7 +28,7 @@ namespace Registrar_dotnet
             services.AddControllersWithViews();
 
             services.AddDbContext<UserContext>(options =>
-            options.UseSqlite(Configuration.GetConnectionString("UserContext")));
+            options.UseNpgsql(Configuration.GetConnectionString("UserContext")));
             services.AddDistributedMemoryCache();
             services.AddSession(options => {
                 options.IdleTimeout = TimeSpan.FromMinutes(10);
