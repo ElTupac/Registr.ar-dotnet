@@ -73,6 +73,16 @@ input.register__input {
   outline: none;
   padding: 5px;
 }
+input.login__input{
+  width: 315px;
+  height: 29px;
+  background: rgba(175, 221, 122, 1);
+  border-radius: 4px;
+  border: none;
+  margin: 8px 0;
+  outline: none;
+  padding: 5px;
+}
 .register__form {
   display: flex;
   justify-content: center;
@@ -80,6 +90,25 @@ input.register__input {
   flex-direction: column;
 }
 .register__btn {
+  display: inline-block;
+  padding: 0.6em 1.5em;
+  margin: 0 0.3em 0.3em 0;
+  border-radius: 0.2em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: sans-serif;
+  font-weight: 500;
+  color: #000000;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: inset 0 -0.6em 1em -0.35em rgba(0, 0, 0, 0.17),
+    inset 0 0.6em 2em -0.3em rgba(255, 255, 255, 0.15),
+    inset 0 0 0em 0.05em rgba(255, 255, 255, 0.12);
+  text-align: center;
+  position: relative;
+  border: none;
+  margin-top: 20px;
+}
+.login__btn2{
   display: inline-block;
   padding: 0.6em 1.5em;
   margin: 0 0.3em 0.3em 0;
@@ -111,7 +140,7 @@ input.register__input {
 .container {
   display: flex;
   justify-content: space-between;
-  width: 50%;
+  width: 70%;
   align-items: center;
   margin: 0 auto;
 }
@@ -256,4 +285,85 @@ input.register__input {
 .login:hover {
   background: rgba(239, 71, 111, 1);
   transition: ease 0.3s;
+}
+
+
+@media (max-width: 1366px) {
+  .container{
+    flex-direction: column;
+  }
+  .about-1{
+    width: 80%;
+    height: 200px;
+    margin-bottom: 20px;
+  }
+  .register{
+    width: 80%;
+  }
+  .login{
+    width: 56%;
+  }
+  .topics{
+    width: 56%;
+  }
+}
+
+@media (max-width: 1200px){
+  .about-1{
+    width: 90%;
+    height: auto;
+  }
+  .register{
+    width: 90%;
+  }
+  .login{
+    width: 63%;
+  }
+  .topics{
+    width: 63%;
+  }
+  .about-1__text{
+    font-size: 22px;
+  }
+  .about-1__title{
+    font-size: 3em;
+  }
+  .login{
+    font-size: 18px;
+  }
+  .login__text{
+    margin-top: 2px;
+  }
+}
+
+@media (max-width: 768px){
+  .login{
+    width: 95%;
+  }
+  .topics{
+    width: 95%;
+  }
+  .about-1{
+    width: 100%;
+  }
+  .register{
+    width: 100%;
+    height: auto;
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+  .container{
+    width: 95%;
+  }
+  .register__title{
+    font-size: 3em;
+  }
+  input.register__input{
+    height: 38px;
+    font-size: 1.3em;
+  }
+  .register__btn{
+    font-size: 18px;
+    font-weight: bolder;
+  }
 }

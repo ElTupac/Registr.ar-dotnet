@@ -34,9 +34,9 @@
     </div>
     <div class="login__form" id="form-container">
       <form action='@Url.Action("LoginUser", "Home")' method="POST">
-        <input type="text" name="username" placeholder="Usuario/eMail" required class="register__input">
-        <input type="password" name="password" placeholder="Contraseña" required class="register__input">
-        <button type="submit" class="register__btn">Entrar</button>
+        <input type="text" name="username" placeholder="Usuario/eMail" required class="login__input">
+        <input type="password" name="password" placeholder="Contraseña" required class="login__input">
+        <button type="submit" class="login__btn2">Entrar</button>
         @if(badLogin){
           <p style="color: black; margin: 0">Las credenciales ingresadas no son validas</p>
         }else if(registrado){
