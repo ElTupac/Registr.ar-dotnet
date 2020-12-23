@@ -14,7 +14,7 @@ header {
   background: rgba(255, 255, 255, 1);
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
   padding-top: 15px;
-  padding-left: 50px;
+  padding-left: 5%;
 }
 .alert{
   padding: 4px 10px;
@@ -208,4 +208,107 @@ input.table__checkbox {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+@media (max-width: 1366px){
+  .first__section{
+    flex-direction: column;
+    width: 70%;
+  }
+  .first__section--text{
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .first__section--new__register{
+    width: 100%;
+  }
+  .second__section{
+    width: 70%;
+  }
+}
+
+@media (max-width: 1200px){
+  .first__section{
+    width: 80%;
+  }
+  .second__section{
+    width: 80%;
+  }
+  .third__section{
+    width: 80%;
+  }
+}
+
+@media (max-width: 1024px){
+  .first__section{
+    width: 90%;
+  }
+  .second__section{
+    width: 90%;
+  }
+  .third__section{
+    width: 90%;
+    flex-direction: column;
+  }
+  .register__container{
+    width: 100%;
+  }
+  .pendings{
+    width: 50%;
+    margin: 20px auto;
+  }
+  .registers__table{
+    font-size: 15px;
+  }
+  table th{
+    font-size: 16px;
+  }
+  table td{
+    font-size: 16px;
+  }
+  .header__elements{
+    width: 30%;
+  }
+}
+@media (max-width: 900px){
+  .pendings{
+    width: 75%;
+  }
+  .registers__table{
+    font-size: 13px;
+  }
+  table th{
+    font-size: 13px;
+  }
+  table td{
+    font-size: 13px;
+  }
+  .header__elements{
+    width: 35%;
+  }
+}
+@media (max-width: 768px){
+  .third__section{
+    flex-direction: row;
+  }
+  .register{
+    width: 48%;
+    margin: 0 auto;
+  }
+  .pendings{
+    margin: 0 auto;
+    width: 48%;
+  }
+  .registers__table{
+    font-size: 10px;
+  }
+  table th{
+    font-size: 10px;
+  }
+  table td{
+    font-size: 10px;
+  }
+  .header__elements{
+    width: 50%;
+  }
 }
