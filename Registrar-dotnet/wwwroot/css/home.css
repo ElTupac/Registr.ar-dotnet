@@ -140,14 +140,14 @@ input.login__input{
 .container {
   display: flex;
   justify-content: space-between;
-  width: 70%;
+  width: 50%;
   align-items: center;
   margin: 0 auto;
 }
 .login {
   --var-heigth: 49px;
   position: relative;
-  width: 820px;
+  width: 50%;
   height: var(--var-heigth);
   background: rgba(239, 71, 111, 0.8);
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
